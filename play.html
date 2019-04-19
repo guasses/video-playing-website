@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>视频标题名称</title>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/play.css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/videoPlay.js"></script>
+</head>
+<body>
+    <div class="top">
+        <div class="home icon-home">
+            首页
+        </div>
+    </div>
+    <!--左边分集区域-->
+    <div class="left">
+        <ul class="list">
+            <li>影片名字第1集</li>
+            <li>影片名字第2集</li>
+            <li>影片名字第3集</li>
+            <li>影片名字第4集</li>
+            <li>影片名字第5集</li>
+            <li>影片名字第6集</li>
+            <li>影片名字第7集</li>
+            <li>影片名字第8集</li>
+            <li>影片名字第9集</li>
+        </ul>
+    </div>
+    <!--左边分集区域结束-->
+
+    <!--中间播放器区域-->
+    <div class="main">
+        <!--多媒体-->
+        <figure>
+            <!--多媒体标题-->
+            <figcaption>这是标题</figcaption>
+            <div class="player">
+                <video src="video/风骚律师第三季08.mp4" preload="meta"></video>
+                <!--控制条-->
+                <div class="controls">
+                    <!--播放暂停-->
+                    <a href="#" class="switch icon-play"></a>
+                    <div class="progress">
+                        <!--当前进度-->
+                        <div class="curr-progress"></div>
+                    </div>
+                    <div class="time">
+                        <span class="curr-time">00:00:00</span>/<span class="total-time">00:00:00</span>
+                    </div>
+                    <!--全屏-->
+                    <a href="#" class="extend icon-resize-full"></a>
+                </div>
+            </div>
+        </figure>
+    </div>
+    <!--播放器区域结束-->
+
+</body>
+</html>
