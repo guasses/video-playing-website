@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
 }
+
 body{
     background-color: aliceblue;
 }
@@ -20,10 +21,10 @@ body{
     top:20px;
     left: 100px;
     color: green;
-    transition: color 2s;
+    transition: color 1s;
 }
 .top .home:hover{
-    animation: doudou 1s alternate linear infinite;
+    animation: doudou 0.5s alternate linear infinite;
     cursor: pointer;
     color: red;
 }
@@ -58,14 +59,26 @@ body{
 }
 .left ul{
     list-style: none;
+    width: 170px;
 }
 .left ul li{
     margin-top: 10px;
     cursor: pointer;
-
+    float:left;
+    width: 50px;
+    height: 50px;
+    margin-left: 5px;
+    background-color:red;
+    border-radius:5px;
+    color: white;
+    line-height: 50px;
+    font-size: 20px;
+    text-align: center;
+    transition: all 0.5s;
 }
 .left ul li:hover{
-    color: green;
+    background-color: white;
+    color: red;
 }
 .main{
     float:left;
