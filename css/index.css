@@ -2,6 +2,9 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
 .main{
     margin: 50px auto;
@@ -9,8 +12,7 @@
     width:1000px;
     height: 500px;
 }
-.list{
-    
+.main .list{
     margin: 10px auto;
     width: 1000px;
     height: 490px;
@@ -18,7 +20,7 @@
     flex-wrap: wrap;
 }
 
-.list li{
+.main .list li{
     width: 150px;
     height: 150px;
     margin-left: 10px;
@@ -27,23 +29,23 @@
 }
 
 
-.list li img{
+.main .list li img{
     width: 150px;
     height: 130px;
     border-radius: 5px;
     transition: all 0.5s; 
 }
 
-.list li:hover img{
+.main .list li:hover img{
     transform: scale(1.05);
     cursor: pointer;
 }
-.list li:hover span{
+.main .list li:hover span{
     transform: scale(1.05);
     cursor: pointer;
 }
 
-.list li span{
+.main .list li span{
     display: block;
     opacity: 0.5;
     width: 150px;
@@ -54,3 +56,68 @@
     color: black;
     transition: all 0.5s;
 }
+
+nav[role="navigation"]{
+    text-align: center;
+}
+.pagination{
+    font-size: 62.5%;
+    margin: 0.8em auto 1em;
+    width: auto;
+    max-width: none;
+    display:inline-block;
+    border-radius: 5px;
+    border: 1px solid #e6e6e6;
+    list-style: none;
+}
+.pagination li{
+    margin: 0;
+    float: left;
+    border-right: 1px solid #e6e6e6;
+}
+.pagination li:last-of-type{
+    border-right: none;
+}
+.pagination li.button{
+    display: inline-block;
+}
+
+.pagination a{
+    border: 1px solid #e6e6e6;
+    border-radius: 0.25em;
+    text-decoration: none;
+    color: #2e4057;
+}
+.pagination a:hover{
+    background-color: #f2f2f2;
+}
+.pagination a:active{
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    transform: scale(0.9);
+}
+.pagination a.disabled{
+    color: rgba(46, 64, 87, 0.4);
+    pointer-events: none;
+}
+.pagination .current{
+    background-color: #64a281;
+    border-color: #64a281;
+    color: #ffffff;
+    pointer-events: none;
+}
+
+.pagination a,.pagination span{
+    border-radius: 0;
+    padding: 0.8em 1em;
+    border: none;
+    display: inline-block;
+    font-size: 1.6em;
+    vertical-align: middle;
+}
+.pagination li:last-of-type,.pagination li:first-of-type{
+    font-size: 1.1em;
+}
+
