@@ -7,53 +7,36 @@
 body{
     background-color: aliceblue;
 }
-.top{
-    /*border: 1px solid green;*/
-    height: 50px;
-    position: relative;
-}
-.top .home{
-    font-size: 30px;
-    height: 40px;
-    /*border: 1px solid red;*/
-    line-height: 40px;
+.head > a{
     position: absolute;
-    top:20px;
     left: 100px;
-    color: green;
-    transition: color 1s;
+    top: 20px;
 }
-.top .home:hover{
-    animation: doudou 0.5s alternate linear infinite;
-    cursor: pointer;
-    color: red;
+.head{
+    height: 80px;
+    position: relative;
+    background-image: linear-gradient(to bottom,skyblue,white);
 }
-@keyframes doudou{
-    0%{
-        transform: translateX(1px);
-    }
-    15%{
-        transform: translateX(-1px);
-    }
-    30%{
-        transform: translateY(1px);
-    }
-    45%{
-        transform: translateY(-1px);
-    }
-    60%{
-        transform: translateX(-1px);
-    }
-    75%{
-        transform: translateX(1px);
-    }
-    90%{
-        transform: translateX(0px);
-    }
+.head .nav{
+    display: inline-block;
+    position: absolute;
+    right: 100px;
+}
+.head .nav > Ul > li{
+    display: inline-block;
+    float: left;
+}
+.head .nav > ul > li > a{
+    display: block;
+    padding: 0 18px;
+    height: 70px;
+    line-height: 70px;
+    color: #FFFFFF;
+    font-size: 1em;
+    text-decoration: none;
 }
 .left{
     float: left;
-    border: 1px solid red;
     margin-top: 200px;
     margin-left: 100px;
 }
@@ -83,8 +66,7 @@ body{
 .main{
     float:left;
     margin-left: 100px;
-    margin-top: 100px;
-    border:1px solid blue;
+    margin-top: 30px;
 }
 figcaption{
     text-align: center;

@@ -10,9 +10,36 @@ html{
     background: url("../images/bg.jpg") no-repeat;
     background-size: cover;
 }
+.head > a{
+    position: absolute;
+    left: 100px;
+    top: 20px;
+}
+.head{
+    height: 80px;
+    position: relative;
+    background-image: linear-gradient(to bottom,skyblue,white);
+}
+.head .nav{
+    display: inline-block;
+    position: absolute;
+    right: 100px;
+}
+.head .nav > Ul > li{
+    display: inline-block;
+    float: left;
+}
+.head .nav > ul > li > a{
+    display: block;
+    padding: 0 18px;
+    height: 70px;
+    line-height: 70px;
+    color: #FFFFFF;
+    font-size: 1em;
+    text-decoration: none;
+}
 .main{
-    margin: 50px auto;
-    
+    margin: 30px auto;
     width:1000px;
     height: 500px;
 }
