@@ -10,6 +10,9 @@ html{
     background: url("../images/bg.jpg") no-repeat;
     background-size: cover;
 }
+body{
+    font: 14px/1.5 'Cuprum',sans-serif,Tahoma,Verdana,Helvetica;
+}
 .head > a{
     position: absolute;
     left: 100px;
@@ -18,7 +21,7 @@ html{
 .head{
     height: 80px;
     position: relative;
-    background-image: linear-gradient(to bottom,skyblue,white);
+    background-image: linear-gradient(to bottom,rgb(59,70,30),rgb(244, 245, 247));
 }
 .head .nav{
     display: inline-block;
@@ -95,7 +98,6 @@ nav[role="navigation"]{
 }
 .pagination{
     font-size: 62.5%;
-    margin: 0.8em auto 1em;
     width: auto;
     max-width: none;
     display:inline-block;
@@ -120,6 +122,7 @@ nav[role="navigation"]{
     border-radius: 0.25em;
     text-decoration: none;
     color: black;
+    width: 50px;
 }
 .pagination a:hover{
     background-color: #f2f2f2;
@@ -144,6 +147,7 @@ nav[role="navigation"]{
 
 .pagination a,.pagination span{
     border-radius: 0;
+    width: 50px;
     padding: 0.8em 1em;
     border: none;
     display: inline-block;

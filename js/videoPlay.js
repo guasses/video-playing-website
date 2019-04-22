@@ -12,6 +12,10 @@ $(function(){
     $(".home").click(function(){
         window.location.href = "index.html";
     });
+    $(".left > ul > li").click(function(){
+        $(this).children("span").addClass("current").parent("li").siblings("li").children("span").removeClass("current");
+        $(this).children("ul").removeClass("hidden").parent("li").siblings("li").children("ul").addClass("hidden");
+    });
 
     playBtn.click(function(){
         if(video.paused){

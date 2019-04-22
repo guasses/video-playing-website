@@ -6,6 +6,10 @@
 
 body{
     background-color: aliceblue;
+    font: 14px/1.5 'Cuprum',sans-serif,Tahoma,Verdana,Helvetica;
+}
+.clear{
+    clear: both;
 }
 .head > a{
     position: absolute;
@@ -37,32 +41,58 @@ body{
 }
 .left{
     float: left;
-    margin-top: 200px;
     margin-left: 100px;
+    margin-top: 150px;
 }
-.left ul{
+.left > ul > li,.left > ul > li > ul > li{
     list-style: none;
-    width: 170px;
 }
-.left ul li{
-    margin-top: 10px;
-    cursor: pointer;
-    float:left;
-    width: 50px;
-    height: 50px;
-    margin-left: 5px;
-    background-color:red;
-    border-radius:5px;
-    color: white;
-    line-height: 50px;
-    font-size: 20px;
+.left  span{
+    display: block;
+    background-color: rgb(75, 205, 245);
+    width: 210px;
+    height: 40px;
+    line-height: 40px;
     text-align: center;
-    transition: all 0.5s;
+    font-size: 20px;
+    color: black;
+    font-family: "宋体";
+    border: 1px solid rgb(90, 149, 167);
+    cursor: pointer;
 }
-.left ul li:hover{
-    background-color: white;
-    color: red;
+.left span:hover{
+    background-color: rgb(4, 121, 156);
+    color: white;
 }
+.left .current{
+    background-color: rgb(4, 100, 156);
+    color: rgb(243, 225, 225); 
+}
+.left span + ul{
+    background-color: rgb(108, 209, 240);
+}
+.left .number{
+    display: flex;
+    width: 210px;
+    flex-wrap: wrap;
+}
+.left .number.hidden{
+    display: none;
+}
+.left .number > li{
+    border: 1px solid rgb(88, 175, 209);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    margin: 10px 10px 10px 0 ;
+}
+.left .number > li:hover{
+    background-color: rgb(184, 218, 231);
+    cursor: pointer;
+}
+
 .main{
     float:left;
     margin-left: 100px;
