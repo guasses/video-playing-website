@@ -6,6 +6,10 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
+html{
+    background: url("../images/bg.jpg") no-repeat;
+    background-size: cover;
+}
 .main{
     margin: 50px auto;
     
@@ -55,6 +59,8 @@
     bottom: -2px;
     color: black;
     transition: all 0.5s;
+    background-color: #e6e6e6;
+    opacity: 0.5;
 }
 
 nav[role="navigation"]{
@@ -86,7 +92,7 @@ nav[role="navigation"]{
     border: 1px solid #e6e6e6;
     border-radius: 0.25em;
     text-decoration: none;
-    color: #2e4057;
+    color: black;
 }
 .pagination a:hover{
     background-color: #f2f2f2;
