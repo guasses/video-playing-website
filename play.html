@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="head">
-        <a href="">logo</a>
+        <a href="index.html"></a>
 
         <nav class="nav">
             <ul>
@@ -29,12 +29,38 @@
         </nav>
     </div>
 
-    <!--左边分集区域-->
-    <div class="left">
+    <!--中间播放器区域-->
+    <div class="main">
+        <!--多媒体-->
+        <figure>
+            <!--多媒体标题-->
+            <figcaption>这是标题</figcaption>
+            <div class="player">
+                <video src="video/风骚律师第三季08.mp4" preload="meta"></video>
+                <!--控制条-->
+                <div class="controls">
+                    <!--播放暂停-->
+                    <a href="#" class="switch icon-play"></a>
+                    <div class="progress">
+                        <!--当前进度-->
+                        <div class="curr-progress"></div>
+                    </div>
+                    <div class="time">
+                        <span class="curr-time">00:00:00</span>/<span class="total-time">00:00:00</span>
+                    </div>
+                    <!--全屏-->
+                    <a href="#" class="extend icon-resize-full"></a>
+                </div>
+            </div>
+        </figure>
+    </div>
+    <!--播放器区域结束-->
+    <!--右边分集区域-->
+    <div class="right">
         <ul>
            <li>
                 <span class="current title">绝命律师第一季</span>
-                <ul class="number hidden">
+                <ul class="number">
                    <li>1</li>
                    <li>2</li>
                    <li>3</li>
@@ -42,6 +68,11 @@
                    <li>5</li>
                    <li>6</li>
                    <li>7</li>
+                   <li>8</li>
+                   <li>9</li>
+                   <li>10</li>
+                   <li>11</li>
+                   <li>12</li>
                 </ul>
            </li>
            <li>
@@ -70,34 +101,7 @@
             </li> 
         </ul>
     </div>
-    <!--左边分集区域结束-->
-
-    <!--中间播放器区域-->
-    <div class="main">
-        <!--多媒体-->
-        <figure>
-            <!--多媒体标题-->
-            <figcaption>这是标题</figcaption>
-            <div class="player">
-                <video src="video/风骚律师第三季08.mp4" preload="meta"></video>
-                <!--控制条-->
-                <div class="controls">
-                    <!--播放暂停-->
-                    <a href="#" class="switch icon-play"></a>
-                    <div class="progress">
-                        <!--当前进度-->
-                        <div class="curr-progress"></div>
-                    </div>
-                    <div class="time">
-                        <span class="curr-time">00:00:00</span>/<span class="total-time">00:00:00</span>
-                    </div>
-                    <!--全屏-->
-                    <a href="#" class="extend icon-resize-full"></a>
-                </div>
-            </div>
-        </figure>
-    </div>
-    <!--播放器区域结束-->
+    <!--you边分集区域结束-->
 
 </body>
 </html>
