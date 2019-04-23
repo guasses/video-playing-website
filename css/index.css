@@ -21,7 +21,12 @@ body{
 .head{
     height: 80px;
     position: relative;
-    background-image: linear-gradient(to bottom,rgb(59,70,30),rgb(244, 245, 247));
+}
+.head > a{
+    background-image: url("../images/logo.jpg");
+    width: 50px;
+    height: 50px;
+    background-size: cover;
 }
 .head .nav{
     display: inline-block;
@@ -97,7 +102,6 @@ nav[role="navigation"]{
     text-align: center;
 }
 .pagination{
-    font-size: 62.5%;
     width: auto;
     max-width: none;
     display:inline-block;
@@ -114,18 +118,17 @@ nav[role="navigation"]{
     border-right: none;
 }
 .pagination li.button{
-    display: inline-block;
+
 }
 
 .pagination a{
     border: 1px solid #e6e6e6;
-    border-radius: 0.25em;
     text-decoration: none;
     color: black;
     width: 50px;
 }
 .pagination a:hover{
-    background-color: #f2f2f2;
+    background-color: #f2f2f2; 
 }
 .pagination a:active{
     -webkit-transform: scale(0.9);
@@ -146,15 +149,19 @@ nav[role="navigation"]{
 }
 
 .pagination a,.pagination span{
-    border-radius: 0;
+    border-radius: 3px;
     width: 50px;
     padding: 0.8em 1em;
     border: none;
     display: inline-block;
-    font-size: 1.6em;
+    font-size: 15px;
     vertical-align: middle;
 }
 .pagination li:last-of-type,.pagination li:first-of-type{
     font-size: 1.1em;
+}
+.footer span{
+    color: white;
+    font-size: 0.5em;
 }
 

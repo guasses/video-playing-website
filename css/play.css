@@ -3,9 +3,11 @@
     margin: 0;
     padding: 0;
 }
-
+html{
+    background: url("../images/bg.jpg") no-repeat;
+    background-size: cover;
+}
 body{
-    background-color: aliceblue;
     font: 14px/1.5 'Cuprum',sans-serif,Tahoma,Verdana,Helvetica;
 }
 .clear{
@@ -19,7 +21,6 @@ body{
 .head{
     height: 80px;
     position: relative;
-    background-image: linear-gradient(to bottom,skyblue,white);
 }
 .head .nav{
     display: inline-block;
