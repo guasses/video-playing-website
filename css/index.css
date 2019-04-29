@@ -17,13 +17,14 @@ body{
     position: absolute;
     left: 100px;
     top: 20px;
+    color: white;
+    text-decoration: none;
 }
 .head{
     height: 80px;
     position: relative;
 }
 .head > a{
-    background-image: url("../images/logo.jpg");
     width: 50px;
     height: 50px;
     background-size: cover;
