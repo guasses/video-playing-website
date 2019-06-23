@@ -1,4 +1,3 @@
-
 *{
     margin: 0;
     padding: 0;
@@ -6,12 +5,13 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
-html{
+/*html{
     background: url("../images/bg.jpg") no-repeat;
     background-size: cover;
-}
+}*/
 body{
-    font: 14px/1.5 'Cuprum',sans-serif,Tahoma,Verdana,Helvetica;
+    background-color: #2c3e50;
+    font-family:Tahoma, Geneva, Verdana, "微软雅黑",sans-serif;
 }
 .clear{
     clear: both;
