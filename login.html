@@ -10,15 +10,28 @@
 </head>
 <body>
     <header>
-
+        <nav>
+            <span id="signIn">登录</span>
+            <span>|</span>
+            <span id="register">注册</span>
+        </nav>
     </header>
     <div id="main">
         <form id="myForm">
             <h4>欢迎访问视频播放网站</h4>
-            <input id="name" class="name" type="text" placeholder="请输入用户名："/>
-            <input class="pw" type="password" placeholder="请输入密码："/>
+            <input id="name" class="name" type="text" placeholder="请输入用户名：" autocomplete="off"/>
+            <input id="passwd" class="pw" type="password" placeholder="请输入密码："/>
             <li><a href="#">忘记密码？</a></li>
             <input id="sign" class="button" type="submit" value="登录"/>
+            <p id="tip" class="hidden"></p>
+        </form>
+
+        <form id="myForm1">
+            <h4>欢迎访问视频播放网站</h4>
+            <input type="text" autocomplete="off" id="zc_name" placeholder="请输入用户名：">
+            <input type="password" name="" id="zc_passwd" placeholder="请输入密码：">
+            <input type="submit" class="button" value="注册" id="register">
+            <p class="hidden"></p>
         </form>
     </div>
     <footer></footer>
