@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+form{
+    display: table;
+    padding: 10px;
+    border: thin dotted #7e7e7e;
+    background-color: #e1ceb8;
+}
+div.tableRow{
+    display: table-row;
+}
+div.tableRow p{
+    display: table-cell;
+    vertical-align: top;
+    padding: 3px;
+}
+div.tableRow p:first-child{
+    text-align: right;
+}
+.button{
+    width: 70px;
+    background-color: #3498db;
+    color: white;
+    text-shadow: 1px 1px 0px #2d7baf;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border-radius: 2px;
+}
