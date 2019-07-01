@@ -1,8 +1,12 @@
+//原生模块
 var http = require('http');
 var fs = require('fs');
 var url = require('url');
 var querystring = require('querystring')
+//npm添加模块
 var mysql = require('mysql');
+//自定义模块
+var router = require('./router.js')
 
 
 function insertSql(connection,value){
@@ -24,7 +28,12 @@ function insertSql(connection,value){
 
 http.createServer(function(request,response){
     var post = "";
-    if(request.url == '/admin.html'){
+    var pathname = url.parse(request.url).pathname;
+    if(pathname=="/"){
+        pathname='/index.html';
+    }else if(pathname == '/favicon.ico'){
+        return;
+    }else if(pathname == '/admin.html'){
         request.on('data',function(chunk){
             post += chunk;
         });
@@ -37,74 +46,42 @@ http.createServer(function(request,response){
                     password:'kn0ckknOck',
                     database:'video',
                 });
-                connection.connect();
-                insertSql(connection,post);
-                connection.end();
+                connection.connect(function(err){
+                    if(err){
+                        console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 数据库连接失败！");
+                    }else{
+                        console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 数据库连接成功！");
+                        insertSql(connection,post);
+                    }
+                });
             }
         });
     }
     
-    
-    var pathname = url.parse(request.url).pathname;
-    /*if(pathname=="/"){
-        pathname='/index.html';
-    }*/
-    console.log("文件" + decodeURI(pathname) + "被请求。来自"+get_client_ip(request));
-    var ext = pathname.match(/(\.[^.]+|)$/)[0];//取得后缀名
-    switch(ext){
-        case ".css":
-        case ".js":
-            fs.readFile("."+request.url,'utf-8',function(err,data){
-                if(err) throw err;
-                response.writeHead(200,{
-                    "Content-Type":{
-                        ".css":"text/css",
-                        ".js":"application/javascript",
-                    }[ext]
-                });
-                response.write(data);
-                response.end();
-            });
-            break;
-        case ".jpg":
-        case ".gif":
-        case ".png":
-            fs.readFile("."+decodeURI(request.url),'binary',function(err,data){
-                //console.log(decodeURI(request.url));
-                if(err)throw err;
-                response.writeHead(200,{
-                    "Content-Type":{
-                        ".jpg":"image/jpeg",
-                        ".gif":"image/gif",
-                        ".png":"image/png",
-                    }[ext]
-                });
-                response.write(data,'binary');
-                response.end();
-            });
-            break;
-        default:
-            console.log(pathname);
-            fs.readFile('.'+pathname,'utf-8',function(err,data){    
-                response.writeHead(200,{
-                    "Content-Type":"text/html"
-                });
-                response.write(data);
-                response.end();
-            });
-    }
+    var date = new Date();
+    console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 请求 " + decodeURI(pathname));
+    //console.log(__dirname + pathname);
+    //判断文件是否存在，不存在显示并发送错误信息
+    fs.exists(__dirname + decodeURI(pathname),function(exists){
+        if(exists){
+            router.readFileBySuffixName(pathname,fs,request,response);
+        }else{
+            console.log(decodeURI(pathname)+"文件不存在！")
+            response.end(pathname+"文件不存在！");
+        }
+    });
     
 }).listen(8080);
 
 //获取url请求客户端ip
-var get_client_ip = function(req) {
+var get_client_ipv4 = function(req) {
     var ip = req.headers['x-forwarded-for'] ||
         req.ip ||
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress || '';
     if(ip.split(',').length>0){
-        ip = ip.split(',')[0]
+        ip = (ip.split(',')[0]).match(/(\d+\.\d+\.\d+\.\d+)/)[0];
     }
     return ip;
 };
