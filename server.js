@@ -29,6 +29,7 @@ function insertSql(connection,value){
 http.createServer(function(request,response){
     var post = "";
     var pathname = url.parse(request.url).pathname;
+    var ipv4 = get_client_ipv4(request);
     if(pathname=="/"){
         pathname='/index.html';
     }else if(pathname == '/favicon.ico'){
@@ -48,18 +49,26 @@ http.createServer(function(request,response){
                 });
                 connection.connect(function(err){
                     if(err){
-                        console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 数据库连接失败！");
+                        showLog(ipv4,"数据库连接失败！");
+                        //console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 数据库连接失败！");
                     }else{
-                        console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 数据库连接成功！");
+                        showLog(ipv4,"数据库连接成功！");
+                        //console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 数据库连接成功！");
                         insertSql(connection,post);
+                        connection.end(function(err){
+                            if(err){
+
+                            }
+                        })
                     }
                 });
             }
         });
     }
     
-    var date = new Date();
-    console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 请求 " + decodeURI(pathname));
+    //var date = new Date();
+    showLog(ipv4,("请求"+decodeURI(pathname)));
+    //console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 请求 " + decodeURI(pathname));
     //console.log(__dirname + pathname);
     //判断文件是否存在，不存在显示并发送错误信息
     fs.exists(__dirname + decodeURI(pathname),function(exists){
@@ -85,5 +94,12 @@ var get_client_ipv4 = function(req) {
     }
     return ip;
 };
+
+var showLog = function(ipv4,message){
+    var date = new Date();
+    console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +
+        " " + ipv4 + " " + message);
+    date = null;
+}
 
 console.log('web服务已运行！');
