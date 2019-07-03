@@ -2,29 +2,11 @@
 var http = require('http');
 var fs = require('fs');
 var url = require('url');
-var querystring = require('querystring')
-//npm添加模块
-var mysql = require('mysql');
+var querystring = require('querystring');
+
 //自定义模块
-var router = require('./router.js')
-
-
-function insertSql(connection,value){
-    connection.query("select * from 'movie' where 'name' = ?",value.movie_name,function(error,results,fields){
-        //console.log(results.id);
-        console.log(results);
-        if(error)throw error;
-    });
-    var tmp = [value.movie_name,value.movie_ename,value.movie_country,value.movie_type,
-        value.movie_link,value.movie_cover_link,value.movie_click,value.movie_watch,
-        value.movie_heat,value.movie_score];
-    //console.log(tmp);
-    var sql = 'insert into movie(id,name,ename,country,type,link,cover_link,click,watch,heat,score) values(0,?,?,?,?,?,?,?,?,?,?)';
-    connection.query(sql,tmp,function(error,results,fields){
-        if(error) throw error;
-        console.log("插入数据成功！");
-    });
-}
+var router = require('./router.js');
+var BaseModel = require('./base_model.js');
 
 http.createServer(function(request,response){
     var post = "";
@@ -33,43 +15,45 @@ http.createServer(function(request,response){
     if(pathname=="/"){
         pathname='/index.html';
     }else if(pathname == '/favicon.ico'){
+        response.writeHead(200,{'Content-Type':'text/plain'});
+        response.write("The Server does not provide favicon.ico");
+        response.end();
         return;
     }else if(pathname == '/admin.html'){
         request.on('data',function(chunk){
             post += chunk;
         });
         request.on('end',function(){
+            console.log(post);
             post = querystring.parse(post);
-            if(post.movie_name!=undefined){
-                var connection = mysql.createConnection({
-                    host:'47.101.130.152',
-                    user:'root',
-                    password:'kn0ckknOck',
-                    database:'video',
+            console.log(post);
+            if(post.value != undefined){
+                var baseModel = new BaseModel();
+                baseModel.find('movie',null,null,[0,20],null,function(results){
+                    if(results){
+                        response.writeHead(200,{'Content-type':'text/plain'});
+                        response.write(results);
+                        response.end();
+                    }
                 });
-                connection.connect(function(err){
-                    if(err){
-                        showLog(ipv4,"数据库连接失败！");
-                        //console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 数据库连接失败！");
+            }else if(post.name!=undefined){
+                var baseModel = new BaseModel();
+                baseModel.findOneById('movie',{'link':post.link},function(set){
+                    if(set){
+                        console.log("重复插入数据！");
+                        baseModel = null;
                     }else{
-                        showLog(ipv4,"数据库连接成功！");
-                        //console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 数据库连接成功！");
-                        insertSql(connection,post);
-                        connection.end(function(err){
-                            if(err){
-
-                            }
-                        })
+                        baseModel.insert('movie',post,function(set){
+                            console.log(set);
+                            baseModel = null;
+                        });
                     }
                 });
             }
         });
     }
     
-    //var date = new Date();
     showLog(ipv4,("请求"+decodeURI(pathname)));
-    //console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +" " +get_client_ipv4(request)+" 请求 " + decodeURI(pathname));
-    //console.log(__dirname + pathname);
     //判断文件是否存在，不存在显示并发送错误信息
     fs.exists(__dirname + decodeURI(pathname),function(exists){
         if(exists){
@@ -82,7 +66,10 @@ http.createServer(function(request,response){
     
 }).listen(8080);
 
-//获取url请求客户端ip
+/**
+ * @desc 获取IPV4地址
+ * @param req htttp.request
+ */
 var get_client_ipv4 = function(req) {
     var ip = req.headers['x-forwarded-for'] ||
         req.ip ||
@@ -95,6 +82,11 @@ var get_client_ipv4 = function(req) {
     return ip;
 };
 
+/**
+ * @desc 向控制台输出日志，自动在头部添加时间、地址
+ * @param ipv4 string
+ * @param message string
+ */
 var showLog = function(ipv4,message){
     var date = new Date();
     console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString() +

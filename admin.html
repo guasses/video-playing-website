@@ -4,52 +4,68 @@
     <meta charset="UTF-8">
     <title>数据管理</title>
     <link rel="stylesheet" href="css/admin.css">
+    <script src="js/admin.js"></script>
 </head>
 <body>
     <form action="./admin.html" method="POST">
         <div class="tableRow">
             <P>电影名称：</P>
-            <P><input type="text" name="movie_name" id="" autocomplete="off"></P>
+            <P><input type="text" name="name" id="" autocomplete="off"></P>
         </div>
         <div class="tableRow">
             <P>英文名称：</P>
-            <P><input type="text" name="movie_ename" id="" autocomplete="off"></P>
+            <P><input type="text" name="ename" id="" autocomplete="off"></P>
         </div>
         <div class="tableRow">
             <P>所属国家：</P>
-            <P><input type="text" name="movie_country" id="" autocomplete="off"></P>
+            <P><input type="text" name="country" id="" autocomplete="off"></P>
         </div>
         <div class="tableRow">
             <P>电影类型：</P>
-            <P><input type="text" name="movie_type" id="" autocomplete="off"></P>
+            <P><input type="text" name="type" id="" autocomplete="off"></P>
         </div>
         <div class="tableRow">
             <P>电影链接：</P>
-            <P><input type="text" name="movie_link" id="" autocomplete="off"></P>
+            <P><input type="text" name="link" id="" autocomplete="off"></P>
         </div>
         <div class="tableRow">
             <P>电影封面链接：</P>
-            <P><input type="text" name="movie_cover_link" id="" autocomplete="off"></P>
+            <P><input type="text" name="cover_link" id="" autocomplete="off"></P>
         </div>
         <div class="tableRow">
             <P>点击次数：</P>
-            <P><input type="number" name="movie_click" id="" autocomplete="off"></P>
+            <P><input type="number" name="click" id="" autocomplete="off"></P>
         </div>
         <div class="tableRow">
             <p>观看次数：</p>
-            <p><input type="number" name="movie_watch" id="" autocomplete="off"></p>
+            <p><input type="number" name="watch" id="" autocomplete="off"></p>
         </div>
         <div class="tableRow">
             <p>热度：</p>
-            <p><input type="number" name="movie_heat" id="" autocomplete="off"></p>
+            <p><input type="number" name="heat" id="" autocomplete="off"></p>
         </div>
         <div class="tableRow">
             <p>评分：</p>
-            <p><input type="number" name="movie_score" id="" autocomplete="off"></p>
+            <p><input type="number" name="score" id="" autocomplete="off"></p>
         </div> 
         <div class="tableRow">
             <p><input class="button" type="submit" value="提交"></p>
         </div>
     </form>
+    <button id="query">查询</button>
+    <table>
+        <tr>
+            <th>电影名称</th>
+            <th>英文名称</th>
+            <th>所属国家</th>
+            <th>电影类型</th>
+            <th>电影链接</th>
+            <th>电影封面链接</th>
+            <th>点击次数</th>
+            <th>观看次数</th>
+            <th>热度</th>
+            <th>评分</th>
+        </tr>
+    </table>
 </body>
 </html>

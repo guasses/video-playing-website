@@ -1,10 +1,10 @@
 /**
  * 
  * @desc 根据后缀名读取文件
- * @param pathname 文件路径 url.parse(request.url).pathname
- * @param fs fs模块对象
- * @param request 
- * @param response 
+ * @param pathname string 文件路径 url.parse(request.url).pathname
+ * @param fs fs
+ * @param request htttp.request
+ * @param response https.response
  */
 exports.readFileBySuffixName = function(pathname,fs,request,response){
     var ext = pathname.match(/(\.[^.]+|)$/)[0];//取得后缀名

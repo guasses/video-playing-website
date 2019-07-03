@@ -28,3 +28,15 @@ div.tableRow p:first-child{
     cursor: pointer;
     border-radius: 2px;
 }
+table{
+    border: thin solid black;
+    caption-side:bottom;
+    border-collapse: collapse;
+}
+td,th{
+    border: thin dotted gray;
+    padding: 5px;
+}
+tr:nth-child(even){
+    background-color: #f8c898;
+}
