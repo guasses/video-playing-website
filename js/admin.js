@@ -2,6 +2,7 @@ window.addEventListener('load',function(event){
     var query = document.getElementById('query');
     var tbody = document.getElementById('tbody');
     query.addEventListener('click',function(event){
+        tbody.innerHTML = '';
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(){
             if(xhr.readyState == 4){
