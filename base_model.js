@@ -147,14 +147,21 @@ module.exports = function(){
             limitStr = limitArr.length > 0 ? ' limit ' + limitArr.join(',') : '',
             orderStr = orderByJson ? ' order by ' + orderByJson['key'] + 
             ' ' + orderByJson['type'] : '';
-        var sql = 'SELECT ' + filedsStr + ' FROM ' + tableName + ' where ' +
-        andStr + orStr + orderStr + limitStr;
+        var sql = '';
+        if(andArr.length == 0 && orArr.length == 0){
+            sql = 'SELECT ' + filedsStr + ' FROM ' + tableName + orderStr + limitStr;
+        }else{
+            sql = 'SELECT ' + filedsStr + ' FROM ' + tableName + ' where ' +
+            andStr + orStr + orderStr + limitStr;
+        }
+        //console.log(sql);
         dbClient.query(sql,function(err,results){
             if(err){
                 console.log('获取数据错误：' + err.message);
                 dbClient.end();
                 callback(false);
             }else{
+                console.log('数据查询成功！');
                 callback(results);
             }
         })

@@ -42,6 +42,8 @@ exports.readFileBySuffixName = function(pathname,fs,request,response){
                 response.end();
             });
             break;
+        case ".txt":
+            break;
         default:
             console.log(pathname);
             fs.readFile('.'+pathname,'utf-8',function(err,data){    

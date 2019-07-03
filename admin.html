@@ -10,7 +10,7 @@
     <form action="./admin.html" method="POST">
         <div class="tableRow">
             <P>电影名称：</P>
-            <P><input type="text" name="name" id="" autocomplete="off"></P>
+            <P><input type="text" name="name" id="" autocomplete="off" required></P>
         </div>
         <div class="tableRow">
             <P>英文名称：</P>
@@ -54,18 +54,21 @@
     </form>
     <button id="query">查询</button>
     <table>
-        <tr>
-            <th>电影名称</th>
-            <th>英文名称</th>
-            <th>所属国家</th>
-            <th>电影类型</th>
-            <th>电影链接</th>
-            <th>电影封面链接</th>
-            <th>点击次数</th>
-            <th>观看次数</th>
-            <th>热度</th>
-            <th>评分</th>
-        </tr>
+        <tbody id="tbody">
+            <tr>
+                <th>ID</th>
+                <th>电影名称</th>
+                <th>英文名称</th>
+                <th>所属国家</th>
+                <th>电影类型</th>
+                <th>电影链接</th>
+                <th>电影封面链接</th>
+                <th>点击次数</th>
+                <th>观看次数</th>
+                <th>热度</th>
+                <th>评分</th>
+            </tr>
+        </tbody>  
     </table>
 </body>
 </html>

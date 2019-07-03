@@ -24,19 +24,10 @@ http.createServer(function(request,response){
             post += chunk;
         });
         request.on('end',function(){
-            console.log(post);
+            //console.log(post);
             post = querystring.parse(post);
-            console.log(post);
-            if(post.value != undefined){
-                var baseModel = new BaseModel();
-                baseModel.find('movie',null,null,[0,20],null,function(results){
-                    if(results){
-                        response.writeHead(200,{'Content-type':'text/plain'});
-                        response.write(results);
-                        response.end();
-                    }
-                });
-            }else if(post.name!=undefined){
+            //console.log(post);  
+            if(post.name!=undefined){
                 var baseModel = new BaseModel();
                 baseModel.findOneById('movie',{'link':post.link},function(set){
                     if(set){
@@ -51,7 +42,18 @@ http.createServer(function(request,response){
                 });
             }
         });
-    }
+    }else if(pathname == '/ajax.txt'){
+        var baseModel = new BaseModel();
+        baseModel.find('movie',{'and':[],'or':[]},{'key':'id','type':'desc'},[0,20],[],function(results){
+            if(results){
+                var resultsStr = JSON.stringify(results);
+                response.write(resultsStr);
+                response.end();
+            }else{
+                console.log("未查找到数据！");
+            }
+        });   
+}
     
     showLog(ipv4,("请求"+decodeURI(pathname)));
     //判断文件是否存在，不存在显示并发送错误信息
