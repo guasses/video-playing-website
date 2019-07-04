@@ -1,6 +1,27 @@
 window.addEventListener('load',function(event){
     var query = document.getElementById('query');
     var tbody = document.getElementById('tbody');
+    var check = document.getElementById('check');
+    var checkXhr = new XMLHttpRequest();
+    checkXhr.onreadystatechange = function(){
+        if(checkXhr.readyState == 4){
+            if((checkXhr.status >= 200 && checkXhr.status < 300) || checkXhr.status == 304){
+                var checkData = JSON.parse(checkXhr.responseText);
+                for(var i=0;i<checkData.length;i++){
+                    var tr = document.createElement('tr');
+                    tr.innerHTML +="<tr><td>" + checkData[i]['id'] + "</td><td>" + 
+                    checkData[i]['name'] + "</td><td>" + 
+                    checkData[i]['reason'] + "</td></tr><button>通过</button><button>删除</button>";
+                    check.appendChild(tr);
+                }
+            }else{
+                alert("XHR接收数据失败："+xhr.status);
+            }
+        }
+    }
+    checkXhr.open("post","/pre_users.txt",true);
+    //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    checkXhr.send(null);
     query.addEventListener('click',function(event){
         tbody.innerHTML = '';
         var xhr = new XMLHttpRequest();
@@ -31,7 +52,7 @@ window.addEventListener('load',function(event){
         xhr.open("post","/ajax.txt",true);
         //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         xhr.send(null);
-    })
+    });
 });
 
 function getJsonLength(jsonData){

@@ -10,6 +10,7 @@ var BaseModel = require('./base_model.js');
 
 http.createServer(function(request,response){
     var post = "";
+    var login_post = "";
     var pathname = url.parse(request.url).pathname;
     var ipv4 = get_client_ipv4(request);
     if(pathname=="/"){
@@ -52,8 +53,47 @@ http.createServer(function(request,response){
             }else{
                 console.log("未查找到数据！");
             }
-        });   
-}
+        });
+        baseModel = null;  
+    }else if(pathname == '/zc.txt'){
+        request.on('data',function(chunk){
+            login_post += chunk;
+        });
+        request.on('end',function(){
+            login_post = querystring.parse(login_post);
+            var baseModel = new BaseModel();
+            baseModel.findOneById('pre_users',{'name':login_post.zc_name},function(result){
+                if(result){
+                    console.log("用户注册，重复插入数据！");
+                    response.write('0');
+                    response.end();
+                }else{
+                    baseModel.insert('pre_users',{'name':login_post.zc_name,'password':
+                    login_post.zc_password,'reason':login_post.zc_reason},function(id){
+                        if(id){
+                            console.log("用户注册，成功插入注册数据库，用户id为"+id);
+                            response.write('1');
+                            response.end();
+                        }   
+                    });
+                }
+            });
+            baseModel = null;
+        });
+        
+    }else if(pathname == '/pre_users.txt'){
+        var baseModel = new BaseModel();
+        baseModel.find('pre_users',{'and':[],'or':[]},{'key':'id','type':'desc'},[0,20],[],function(results){
+            if(results){
+                var resultsStr = JSON.stringify(results);
+                response.write(resultsStr);
+                response.end();
+            }else{
+                console.log("未查找到数据！");
+            }
+        });
+        baseModel = null; 
+    }
     
     showLog(ipv4,("请求"+decodeURI(pathname)));
     //判断文件是否存在，不存在显示并发送错误信息

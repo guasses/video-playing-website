@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/login.css">
     <script src="js/jquery-3.3.1.js"></script>
     <script src="js/cross-browser.js"></script>
+    <script src="js/cookie_util.js"></script>
     <script src="js/login.js"></script>
 </head>
 <body>
@@ -19,19 +20,20 @@
     <div id="main">
         <form id="myForm">
             <h4>欢迎访问视频播放网站</h4>
-            <input id="name" class="name" type="text" placeholder="请输入用户名：" autocomplete="off"/>
-            <input id="passwd" class="pw" type="password" placeholder="请输入密码："/>
+            <input id="name" name="name" class="name" type="text" placeholder="请输入用户名：" autocomplete="off"/>
+            <input id="passwd" name="password" class="pw" type="password" placeholder="请输入密码："/>
             <li><a href="#">忘记密码？</a></li>
-            <input id="sign" class="button" type="submit" value="登录"/>
+            <input id="dl" class="button" value="登录"/>
             <p id="tip" class="hidden"></p>
         </form>
 
         <form id="myForm1">
-            <h4>欢迎访问视频播放网站</h4>
-            <input type="text" autocomplete="off" id="zc_name" placeholder="请输入用户名：">
-            <input type="password" name="" id="zc_passwd" placeholder="请输入密码：">
-            <input type="submit" class="button" value="注册" id="register">
-            <p class="hidden"></p>
+            <h4>注册后请等待审核</h4>
+            <input type="text" autocomplete="off" id="zc_name" name="zc_name" placeholder="请输入用户名：">
+            <input type="password" id="zc_passwd" name="zc_password" placeholder="请输入密码：">
+            <input type="text" autocomplete="off" id="zc_reason" placeholder="请输入理由：">
+            <input class="button" value="注册" id="zc">
+            <p id="zc_tip" class="hidden"></p>
         </form>
     </div>
     <footer></footer>

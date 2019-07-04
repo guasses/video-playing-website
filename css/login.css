@@ -81,6 +81,7 @@ a,a:visited{
     text-shadow: 1px 1px 0px #2d7baf;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+    text-align: center;
 }
 form p{
     visibility: hidden;
