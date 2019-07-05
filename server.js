@@ -70,17 +70,19 @@ http.createServer(function(request,response){
                     response.write('0');
                     response.end();
                 }else{
+                    
                     baseModel.insert('pre_users',{'name':login_post.zc_name,'password':
                     login_post.zc_password,'reason':login_post.zc_reason},function(id){
                         if(id){
                             console.log("用户注册，成功插入注册数据库，用户id为"+id);
                             response.write('1');
                             response.end();
-                        }   
+                        }else{
+                            console.log("用户注册，插入注册数据库失败！");
+                        }  
                     });
                 }
             });
-            baseModel = null;
         });
         
     }else if(pathname == '/text/pre_users.txt'){
@@ -94,7 +96,6 @@ http.createServer(function(request,response){
                 console.log("未查找到数据！");
             }
         });
-        baseModel = null; 
     }else if(pathname == '/text/check.txt'){
         var baseModel = new BaseModel();
         request.on('data',function(chunk){
