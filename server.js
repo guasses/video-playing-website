@@ -16,7 +16,7 @@ http.createServer(function(request,response){
     var pathname = url.parse(request.url).pathname;
     var ipv4 = get_client_ipv4(request);
     if(pathname=="/"){
-        response.writeHead(302,{Location:'./login.html'});
+        pathname = "/login.html";
     }else if(pathname == '/favicon.ico'){
         response.writeHead(200,{'Content-Type':'text/plain'});
         response.write("The Server does not provide favicon.ico");
