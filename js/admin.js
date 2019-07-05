@@ -39,7 +39,7 @@ window.addEventListener('load',function(event){
             }
         }
     }
-    checkXhr.open("post","/pre_users.txt",true);
+    checkXhr.open("post","./text/pre_users.txt",true);
     //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
     checkXhr.send(null);
     query.addEventListener('click',function(event){
