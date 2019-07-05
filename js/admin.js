@@ -11,8 +11,28 @@ window.addEventListener('load',function(event){
                     var tr = document.createElement('tr');
                     tr.innerHTML +="<tr><td>" + checkData[i]['id'] + "</td><td>" + 
                     checkData[i]['name'] + "</td><td>" + 
-                    checkData[i]['reason'] + "</td></tr><button>通过</button><button>删除</button>";
+                    checkData[i]['reason'] + "</td></tr><button class='pass'>通过</button><button class='delete'>删除</button>";
                     check.appendChild(tr);
+                }
+                var passes = document.getElementsByClassName('pass');
+                var deletes = document.getElementsByClassName('delete');
+                for(var i =0;i<passes.length;i++){
+                    passes[i].addEventListener('click',function(event){
+                        var zc_id = this.parentElement.firstElementChild.innerHTML;
+                        this.parentElement.innerHTML = "";
+                        var passXhr = new XMLHttpRequest();
+                        passXhr.open("post","./text/check.txt",true);
+                        passXhr.send("pass=1&zc_id="+zc_id);
+                    },false);
+                }
+                for(var i=0;i<deletes.length;i++){
+                    deletes[i].addEventListener('click',function(event){
+                        var zc_id = this.parentElement.firstElementChild.innerHTML;
+                        this.parentElement.innerHTML = "";
+                        var passXhr = new XMLHttpRequest();
+                        passXhr.open("post","./text/check.txt",true);
+                        passXhr.send("delete=1&zc_id="+zc_id);
+                    })
                 }
             }else{
                 alert("XHR接收数据失败："+xhr.status);
@@ -49,7 +69,7 @@ window.addEventListener('load',function(event){
                 }
             }
         };
-        xhr.open("post","/ajax.txt",true);
+        xhr.open("post","./text/ajax.txt",true);
         //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         xhr.send(null);
     });

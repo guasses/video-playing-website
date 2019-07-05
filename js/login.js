@@ -1,10 +1,3 @@
-/*CookieUtil.set("name","Nicholas");
-CookieUtil.set("book","Professional Jacascript");
-alert(CookieUtil.get("name"));
-alert(CookieUtil.get("book"));
-CookieUtil.unset("name");
-CookieUtil.unset("book");*/
-
 window.addEventListener("load",function(){
     //登录、注册按钮跳转
     var signIn = document.getElementById("signIn");
@@ -22,11 +15,9 @@ window.addEventListener("load",function(){
 
     //登录界面事件  
     dl.addEventListener("click",function(event){
-        event.preventDefault();
         var name = document.getElementById("name").value;
         var passwd = document.getElementById("passwd").value;
         var tip = document.getElementById("tip");
-        
         if(name=="" && passwd==""){
             tip.innerText = "请输入用户名和密码！"
             tip.style.visibility = "visible";
@@ -37,13 +28,26 @@ window.addEventListener("load",function(){
             tip.innerText = "请输入用户名！";
             tip.style.visibility = "visible";
         }else{
-            tip.innerText = "用户名或密码不正确！";
-            tip.style.visibility = "visible";
-            
-            form.submit();
-            form.action = "index.html";
-            //form.reset();
-        }    
+            var dlXhr = new XMLHttpRequest();
+            dlXhr.onreadystatechange = function(){
+                if(dlXhr.readyState == 4){
+                    if((dlXhr.status >= 200 && dlXhr.status < 300) || dlXhr.status == 304){
+                        if(Number(dlXhr.responseText)){
+                            CookieUtil.set("name",name);
+                            window.location.href = "index.html";
+                        }else{
+                            tip.innerText = "用户名或密码不正确！";
+                            tip.style.visibility = "visible";
+                        }
+                    }else{
+                        alert("XHR接收数据失败：" + dlXhr.status);
+                    }
+                }
+            };
+            dlXhr.open("post","./text/users.txt",true);
+            //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            dlXhr.send("dl_name="+name+"&dl_password="+passwd);
+        }   
     },false);
 
     //注册界面事件
@@ -82,10 +86,10 @@ window.addEventListener("load",function(){
                     }
                 }
             };
-            xhr.open("post","zc.txt",true);
+            xhr.open("post","./text/zc.txt",true);
             //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
             xhr.send("zc_name="+name+"&zc_password="+passwd+"&zc_reason="+reason);
-            }
+        }
           
     },false);
 },false);

@@ -11,6 +11,8 @@ var BaseModel = require('./base_model.js');
 http.createServer(function(request,response){
     var post = "";
     var login_post = "";
+    var check_post = "";
+    var dl_post = "";
     var pathname = url.parse(request.url).pathname;
     var ipv4 = get_client_ipv4(request);
     if(pathname=="/"){
@@ -43,7 +45,7 @@ http.createServer(function(request,response){
                 });
             }
         });
-    }else if(pathname == '/ajax.txt'){
+    }else if(pathname == '/text/ajax.txt'){
         var baseModel = new BaseModel();
         baseModel.find('movie',{'and':[],'or':[]},{'key':'id','type':'desc'},[0,20],[],function(results){
             if(results){
@@ -55,7 +57,7 @@ http.createServer(function(request,response){
             }
         });
         baseModel = null;  
-    }else if(pathname == '/zc.txt'){
+    }else if(pathname == '/text/zc.txt'){
         request.on('data',function(chunk){
             login_post += chunk;
         });
@@ -81,7 +83,7 @@ http.createServer(function(request,response){
             baseModel = null;
         });
         
-    }else if(pathname == '/pre_users.txt'){
+    }else if(pathname == '/text/pre_users.txt'){
         var baseModel = new BaseModel();
         baseModel.find('pre_users',{'and':[],'or':[]},{'key':'id','type':'desc'},[0,20],[],function(results){
             if(results){
@@ -93,6 +95,64 @@ http.createServer(function(request,response){
             }
         });
         baseModel = null; 
+    }else if(pathname == '/text/check.txt'){
+        var baseModel = new BaseModel();
+        request.on('data',function(chunk){
+            check_post += chunk;
+        });
+        request.on('end',function(){
+            check_post = querystring.parse(check_post);
+            if(check_post.pass){
+                baseModel.findOneById('pre_users',{'id':check_post.zc_id},function(result){
+                    if(result){
+                        baseModel.insert('users',{'name':result.name,'password':result.password},function(id){
+                            if(id){
+                                console.log("正式库插入数据成功！");
+                                baseModel.remove('pre_users',{'id':check_post.zc_id},function(result){
+                                    if(result){
+                                        console.log("通过，删除注册数据库数据成功！");
+                                    }else{
+                                        console.log("通过，删除注册数据库数据失败！");
+                                    }
+                                });
+                            }else{
+                                console.log("正式库插入数据失败！");
+                            }
+                        })
+                    }else{
+                        console.log("通过审核查询数据失败！");
+                    }
+                })
+            }else if(check_post.delete){
+                baseModel.remove('pre_users',{'id':check_post.zc_id},function(result){
+                    if(result){
+                        console.log("删除，删除注册数据库数据成功！");
+                    }else{
+                        console.log("删除，删除注册数据库数据失败！");
+                    }
+                });
+            }
+        });
+    }else if(pathname == '/text/users.txt'){
+        var baseModel = new BaseModel();
+        request.on('data',function(chunk){
+            dl_post += chunk;
+        });
+        request.on('end',function(){
+            dl_post = querystring.parse(dl_post);
+            baseModel.find('users',{'and':[{'key':'name','opts':'=','value':'\"'+dl_post.dl_name+'\"'},
+            {'key':'password','opts':'=','value':'\"'+dl_post.dl_password+'\"'}],'or':[]},
+            {'key':'id','type':'desc'},[0,1],[],function(results){
+                if(results.length != 0){
+                    response.write('1');
+                    response.end();
+                }else{
+                    console.log("登录，未查找到数据！");
+                    response.write('0');
+                    response.end();
+                }
+            });
+        })
     }
     
     showLog(ipv4,("请求"+decodeURI(pathname)));
