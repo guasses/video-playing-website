@@ -44,6 +44,15 @@ exports.readFileBySuffixName = function(pathname,fs,request,response){
             break;
         case ".txt":
             break;
+        case ".ico":
+            fs.readFile('.'+decodeURI(request.url),'binary',function(err,data){    
+                response.writeHead(200,{
+                    "Content-Type":"image/x-icon"
+                });
+                response.write(data,'binary');
+                response.end();
+            });
+            break;
         default:
             console.log(pathname);
             fs.readFile('.'+pathname,'utf-8',function(err,data){    

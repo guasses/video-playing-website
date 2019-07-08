@@ -13,15 +13,11 @@ http.createServer(function(request,response){
     var login_post = "";
     var check_post = "";
     var dl_post = "";
+    var movie_list_post = "";
     var pathname = url.parse(request.url).pathname;
     var ipv4 = get_client_ipv4(request);
     if(pathname=="/"){
         pathname = "/login.html";
-    }else if(pathname == '/favicon.ico'){
-        response.writeHead(200,{'Content-Type':'text/plain'});
-        response.write("The Server does not provide favicon.ico");
-        response.end();
-        return;
     }else if(pathname == '/admin.html'){
         request.on('data',function(chunk){
             post += chunk;
@@ -154,6 +150,26 @@ http.createServer(function(request,response){
                 }
             });
         })
+    }else if(pathname == '/text/movie_list.txt'){
+        request.on('data',function(chunk){
+            movie_list_post += chunk;
+        });
+        request.on('end',function(){
+            var baseModel = new BaseModel();
+            baseModel.find('movie',{'and':[],'or':[]},{'key':'id','type':'desc'},[(18*(Number(movie_list_post)-1)),
+            18],[],function(results){
+                if(results.length != 0){
+                    var resultsStr = JSON.stringify(results);
+                    response.write(resultsStr);
+                    response.end();
+                }else{
+                    console.log("未查找到电影数据！");
+                    response.write('0');
+                    response.end();
+                }
+            });
+        });
+        
     }
     
     showLog(ipv4,("请求"+decodeURI(pathname)));

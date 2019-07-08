@@ -164,7 +164,24 @@ module.exports = function(){
                 console.log('数据查询成功！');
                 callback(results);
             }
-        })
+        });
+    }
+    /**
+     * @desc 查询数据库总共有多少条数据
+     * @param tableName string
+     * @param callback function
+     */
+    this.count = function(tableName,callback){
+        dbClient.query('SELECT count(*) from ' + tableName,function(err,result){
+            if(err){
+                console.log('获取数据错误：' + err.message);
+                dbClient.end();
+                callback(false);
+            }else{
+                console.log('查询电影数据总条数成功！');
+                callback(result[0]['count(*)']);
+            }
+        });
     }
     
 }
