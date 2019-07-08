@@ -1,9 +1,0 @@
-{
-    "db":{
-        "host":"47.101.130.152",
-        "port":"3306",
-        "user":"root",
-        "password":"kn0ckknOck",
-        "dbName":"video"
-    }
-}
