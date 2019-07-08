@@ -14,6 +14,7 @@ http.createServer(function(request,response){
     var check_post = "";
     var dl_post = "";
     var movie_list_post = "";
+    var movie_post = "";
     var pathname = url.parse(request.url).pathname;
     var ipv4 = get_client_ipv4(request);
     if(pathname=="/"){
@@ -156,8 +157,8 @@ http.createServer(function(request,response){
         });
         request.on('end',function(){
             var baseModel = new BaseModel();
-            baseModel.find('movie',{'and':[],'or':[]},{'key':'id','type':'desc'},[(18*(Number(movie_list_post)-1)),
-            18],[],function(results){
+            baseModel.find('movie',{'and':[],'or':[]},{'key':'id','type':'desc'},[(12*(Number(movie_list_post)-1)),
+            12],[],function(results){
                 if(results.length != 0){
                     var resultsStr = JSON.stringify(results);
                     response.write(resultsStr);
@@ -169,7 +170,24 @@ http.createServer(function(request,response){
                 }
             });
         });
-        
+    }else if(pathname == '/text/movie.txt'){
+        request.on('data',function(chunk){
+            movie_post += chunk;
+        });
+        request.on('end',function(){
+            var baseModel = new BaseModel();
+            baseModel.findOneById('movie',{'id':movie_post},function(result){
+                if(result){
+                    var resultStr = JSON.stringify(result);
+                    response.write(resultStr);
+                    response.end();
+                }else{
+                    console.log("未找到视频数据！");
+                    response.write('0');
+                    response.end();
+                }
+            });
+        });
     }
     
     showLog(ipv4,("请求"+decodeURI(pathname)));

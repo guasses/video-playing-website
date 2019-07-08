@@ -1,5 +1,24 @@
 if(CookieUtil.get('name')){
-    $(function(){
+    window.addEventListener('load',function(event){
+        var url = window.location.href;
+        var id = decodeURI(url.split("=")[1]);
+        var video = document.getElementById('video');
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4){
+                if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+                    var data = JSON.parse(xhr.responseText); 
+                    video.innerHTML = `<source src="${data['link']}" type="video/mp4"/>`;
+                }else{
+                    alert("XHR接收数据失败：" + xhr.status);
+                }
+            }
+        };
+        xhr.open("post","./text/movie.txt",true);
+        xhr.send(id);
+    });
+    
+    /*$(function(){
         var video = document.querySelector("video")
         var playBtn = $(".switch");
         var currProgress = $(".curr-progress");
@@ -71,7 +90,7 @@ if(CookieUtil.get('name')){
         extend.click(function(){
             video.webkitEnterFullScreen();
         });
-    });
+    });*/
     
 }else{
     window.location.href = 'login.html';

@@ -105,16 +105,16 @@ body {
 
 .main .list li{
     width: 150px;
-    height: 150px;
+    height: 200px;
     margin-left: 10px;
-    flex:1;
     position: relative;
+    overflow: hidden;
 }
 
 
 .main .list li img{
     width: 150px;
-    height: 130px;
+    height: 200px;
     border-radius: 5px;
     transition: all 0.5s; 
 }
@@ -207,4 +207,8 @@ nav[role="navigation"]{
 .footer span{
     color: white;
     font-size: 0.5em;
+}
+.hidden{
+    position: absolute;
+    left: 20000px;
 }

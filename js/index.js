@@ -32,15 +32,16 @@ if(CookieUtil.get('name')){
                     var data = JSON.parse(xhr.responseText);
                     for(var i =0;i<data.length;i++){
                         var li = document.createElement('li');
-                        li.innerHTML += `<li class="cover"><img src="${data[i]['cover_link']}" 
-                        alt="${data[i]['ename']}"><span>${data[i]['name']}</span>`;
+                        li.classList.add('cover');
+                        li.innerHTML += `<img src="${data[i]['cover_link']}" 
+                        alt="${data[i]['ename']}"><span>${data[i]['name']}</span><span class="hidden">${data[i]['id']}</span>`;
                         movie_list.appendChild(li);
                     }
 
                     var list = document.querySelectorAll('.cover');
                     list.forEach((item,index) => {
                         item.addEventListener('click',function(event){
-                            var text = item.getElementsByTagName('span')[0].innerText;
+                            var text = item.getElementsByTagName('span')[1].innerText;
                             window.location.href = encodeURI("play.html?data="+text);
                         });
                     });  

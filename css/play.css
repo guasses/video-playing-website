@@ -118,7 +118,7 @@ figcaption{
     height: 360px;
     margin: 0px auto;
     border-top: 1px solid #000;
-    background: url(../images/加载.gif) center no-repeat #000;
+    /*background: url(../images/加载.gif) center no-repeat #000;*/
     background-size: auto 100%;
     position: relative;
 }
@@ -128,7 +128,7 @@ figcaption{
     margin: 0 auto;
 }
 
-.controls{
+/*.controls{
     width: 720px;
     height: 40px;
     background-color: black;
@@ -183,5 +183,4 @@ figcaption{
     text-align: center;
     line-height: 20px;
     color: yellow;
-}
-
+}*/

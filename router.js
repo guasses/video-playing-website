@@ -42,6 +42,38 @@ exports.readFileBySuffixName = function(pathname,fs,request,response){
                 response.end();
             });
             break;
+        case ".mp4":
+            fs.stat('.'+decodeURI(request.url),function(err,stats){
+                if(err){
+                    if(err.code === 'ENOENT'){
+                        return response.sendStatus(404);
+                    }
+                    response.end(err);
+                }
+                var range = request.headers.range;
+                if(!range){
+                    return response.sendStatus(416);
+                }
+                var positions = range.replace(/bytes=/,"").split("-");
+                var start = parseInt(positions[0]);
+                var total = stats.size;
+                var end = positions[1] ? parseInt(positions[1],10):total -1;
+                var chunksize = (end-start) + 1;
+
+                response.writeHead(206,{
+                    "Content-Range":"bytes "+ start+"-"+end+"/"+total,
+                    "Accept-Ranges":"bytes",
+                    "Content-Length":chunksize,
+                    "Content-Type":"video/mp4"
+                });
+                var stream = fs.createReadStream('.'+decodeURI(request.url),{start:start,end:end})
+                .on("open",function(){
+                    stream.pipe(response);
+                }).on("error",function(err){
+                    response.end(err);
+                });
+            });
+            break;
         case ".txt":
             break;
         case ".ico":

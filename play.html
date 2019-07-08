@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>视频标题名称</title>
     <link rel="stylesheet" href="css/play.css">
-    <script src="js/jquery-3.3.1.js"></script>
     <script src="js/cookie_util.js"></script>
     <script src="js/videoPlay.js"></script>
 </head>
@@ -36,7 +35,9 @@
             <!--多媒体标题-->
             <figcaption>这是标题</figcaption>
             <div class="player">
-                <video src="video/风骚律师第三季08.mp4" preload="meta"></video>
+                <video preload="meta" controls id="video">
+                    
+                </video>
                 <!--控制条-->
                 <div class="controls">
                     <!--播放暂停-->
