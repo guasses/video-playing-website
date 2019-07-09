@@ -10,11 +10,16 @@
     background-size: cover;
 }*/
 body{
-    background-color: #2c3e50;
     font-family:Tahoma, Geneva, Verdana, "微软雅黑",sans-serif;
+    background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/debut_light.png");
 }
 .clear{
     clear: both;
+}
+
+.head{
+    height: 80px;
+    position: relative;
 }
 .head > a{
     position: absolute;
@@ -22,31 +27,10 @@ body{
     height: 50px;
     left: 100px;
     top: 20px;
-    color: white;
+    color: black;
     text-decoration: none;
 }
-.head{
-    height: 80px;
-    position: relative;
-}
-.head .nav{
-    display: inline-block;
-    position: absolute;
-    right: 100px;
-}
-.head .nav > Ul > li{
-    display: inline-block;
-    float: left;
-}
-.head .nav > ul > li > a{
-    display: block;
-    padding: 0 18px;
-    height: 70px;
-    line-height: 70px;
-    color: #FFFFFF;
-    font-size: 1em;
-    text-decoration: none;
-}
+
 /*
 .right{
     float: left;
@@ -104,28 +88,30 @@ body{
 }
 */
 .main{
+    width: 80%;
     margin: 0 auto;
 }
-figcaption{
+/*figcaption{
     text-align: center;
     line-height: 80px;
     font-family: "Microsoft Yahei";
     font-size: 24px;
-}
+}*/
 
 .player{
-    width: 720px;
-    height: 360px;
+    display: block;
+    width: 100%;
+    height: 100%;
     margin: 0px auto;
-    border-top: 1px solid #000;
+    /*border-top: 1px solid #000;*/
     /*background: url(../images/加载.gif) center no-repeat #000;*/
-    background-size: auto 100%;
+    /*background-size: auto 100%;*/
     position: relative;
 }
 .player video{
+    width: 100%;
     height: 100%;
     display: block;
-    margin: 0 auto;
 }
 
 /*.controls{

@@ -38,9 +38,9 @@ http.createServer(function(request,response){
                             console.log(set);
                         });
                     }
+                    baseModel.end();
+                    baseModel = null;
                 });
-                baseModel.end();
-                baseModel = null;
             }
         });
     }else if(pathname == '/text/ajax.txt'){
@@ -68,8 +68,9 @@ http.createServer(function(request,response){
                     console.log("用户注册，重复插入数据！");
                     response.write('0');
                     response.end();
-                }else{
-                    
+                    baseModel.end();
+                    baseModel = null;
+                }else{ 
                     baseModel.insert('pre_users',{'name':login_post.zc_name,'password':
                     login_post.zc_password,'reason':login_post.zc_reason},function(id){
                         if(id){
@@ -78,12 +79,12 @@ http.createServer(function(request,response){
                             response.end();
                         }else{
                             console.log("用户注册，插入注册数据库失败！");
-                        }  
+                        } 
+                        baseModel.end();
+                        baseModel = null; 
                     });
                 }
             });
-            baseModel.end();
-            baseModel = null;
         });
         
     }else if(pathname == '/text/pre_users.txt'){
@@ -96,9 +97,9 @@ http.createServer(function(request,response){
             }else{
                 console.log("未查找到数据！");
             }
+            baseModel.end();
+            baseModel = null;
         });
-        baseModel.end();
-        baseModel = null;
     }else if(pathname == '/text/check.txt'){
         var baseModel = new BaseModel();
         request.on('data',function(chunk){
@@ -122,13 +123,15 @@ http.createServer(function(request,response){
                             }else{
                                 console.log("正式库插入数据失败！");
                             }
-                        })
+                            baseModel.end();
+                            baseModel = null;
+                        });
                     }else{
                         console.log("通过审核查询数据失败！");
+                        baseModel.end();
+                        baseModel = null;
                     }
                 });
-                baseModel.end();
-                baseModel = null;
             }else if(check_post.delete){
                 baseModel.remove('pre_users',{'id':check_post.zc_id},function(result){
                     if(result){
@@ -136,9 +139,9 @@ http.createServer(function(request,response){
                     }else{
                         console.log("删除，删除注册数据库数据失败！");
                     }
+                    baseModel.end();
+                    baseModel = null;
                 });
-                baseModel.end();
-                baseModel = null;
             }
         });
     }else if(pathname == '/text/users.txt'){
@@ -169,20 +172,29 @@ http.createServer(function(request,response){
         });
         request.on('end',function(){
             var baseModel = new BaseModel();
-            baseModel.find('movie',{'and':[],'or':[]},{'key':'id','type':'desc'},[(12*(Number(movie_list_post)-1)),
-            12],[],function(results){
-                if(results.length != 0){
-                    var resultsStr = JSON.stringify(results);
-                    response.write(resultsStr);
-                    response.end();
-                }else{
-                    console.log("未查找到电影数据！id="+movie_list_post);
-                    response.write('0');
-                    response.end();
+            baseModel.count('movie',function(result){
+                if(result){
+                    if(Math.ceil(result/12.0)<Number(movie_list_post)){
+                        response.write('1');
+                        response.end();
+                    }else{
+                        baseModel.find('movie',{'and':[],'or':[]},{'key':'id','type':'desc'},[(12*(Number(movie_list_post)-1)),
+                        12],[],function(results){
+                            if(results.length != 0){
+                                var resultsStr = JSON.stringify(results);
+                                response.write(resultsStr);
+                                response.end();
+                            }else{
+                                console.log("未查找到电影数据！id="+movie_list_post);
+                                response.write('0');
+                                response.end();
+                            }
+                            baseModel.end();
+                            baseModel = null;
+                        });
+                    }
                 }
             });
-            baseModel.end();
-            baseModel = null;
         });
     }else if(pathname == '/text/movie.txt'){
         request.on('data',function(chunk){
@@ -200,9 +212,9 @@ http.createServer(function(request,response){
                     response.write('0');
                     response.end();
                 }
+                baseModel.end();
+                baseModel = null;
             });
-            baseModel.end();
-            baseModel = null;
         });
     }
     

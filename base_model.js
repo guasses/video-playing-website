@@ -33,10 +33,11 @@ module.exports = function(){
         dbClient = mysql.createConnection(client);
         dbClient.connect();
         dbClient.query('USE ' + dbConfig['dbName'],function(err,results){
-            if(err){
+            if(err || results == undefined){
                 console.log('数据库连接错误：' + err.message);
+            }else{
+                console.log('数据库连接成功！'+ results);
             }
-            console.log('数据库连接成功！');
         })
     }
     /**

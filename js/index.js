@@ -24,6 +24,10 @@ if(CookieUtil.get('name')){
             item.classList.contains('is-active') && handleIndicator(item);
         });
 
+        var signOut = document.getElementById('signOut');
+        signOut.addEventListener('click',function(event){
+            CookieUtil.unset('name');
+        });
         /*var pages = document.querySelectorAll('.page');
         pages.forEach((item,index)=>{
             item.addEventListener('click',function(event){
@@ -39,30 +43,39 @@ if(CookieUtil.get('name')){
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4){
                     if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
-                        var data = JSON.parse(xhr.responseText);
-                        for(var i =0;i<data.length;i++){
-                            var li = document.createElement('li');
-                            li.classList.add('cover');
-                            li.innerHTML += `<img src="${data[i]['cover_link']}" 
-                            alt="${data[i]['ename']}"><span>${data[i]['name']}</span><span class="hidden">${data[i]['id']}</span>`;
-                            movie_list.appendChild(li);
-                        }
-                        window.addEventListener('scroll',sc);
-                        var list = document.querySelectorAll('.cover');
-                        list.forEach((item,index) => {
-                            item.addEventListener('click',function(event){
-                                var text = item.getElementsByTagName('span')[1].innerText;
-                                window.location.href = encodeURI("play.html?data="+text);
-                            });
-                        });
-                        if(hasScrollbar()){
-                            return ;
+                        if(xhr.responseText == 1){
+                            var bottom = document.getElementById('bottom');
+                            bottom.style.display = 'block';
+                            window.removeEventListener('scroll',sc);
+                        }else if(xhr.responseText == 0){
+                            alert("拉取数据库数据失败，请联系管理员！");
                         }else{
-                            id++;
-                            useXhr(xhr,id);
+                            var data = JSON.parse(xhr.responseText);
+                            for(var i =0;i<data.length;i++){
+                                var li = document.createElement('li');
+                                li.classList.add('cover');
+                                li.innerHTML += `<img src="${data[i]['cover_link']}" 
+                                alt="${data[i]['ename']}"><span>${data[i]['name']}</span><span 
+                                class="hidden">${data[i]['id']}</span><span>${data[i]['score']}</span>`;
+                                movie_list.appendChild(li);
+                            }
+                            window.addEventListener('scroll',sc);
+                            var list = document.querySelectorAll('.cover');
+                            list.forEach((item,index) => {
+                                item.addEventListener('click',function(event){
+                                    var text = item.getElementsByTagName('span')[1].innerText;
+                                    window.location.href = encodeURI("play.html?data="+text);
+                                });
+                            });
+                            if(hasScrollbar()){
+                                return ;
+                            }else{
+                                id++;
+                                useXhr(xhr,id);
+                            }
                         }
                     }else{
-                        alert("XHR接收数据失败：" + xhr.status);
+                        alert("获取服务器数据失败：" + xhr.status);
                     }
                 }
             };
@@ -96,7 +109,7 @@ if(CookieUtil.get('name')){
             return (document.body.scrollHeight - (document.body.clientHeight+scrollTop));
         }
         function sc(event){
-            if(getScrollDiffer() < 20){
+            if(getScrollDiffer() < 50){
                 id++;
                 useXhr(xhr,id);
                 window.removeEventListener('scroll',re);
