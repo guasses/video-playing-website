@@ -47,7 +47,7 @@ if(CookieUtil.get('name')){
                             alt="${data[i]['ename']}"><span>${data[i]['name']}</span><span class="hidden">${data[i]['id']}</span>`;
                             movie_list.appendChild(li);
                         }
-
+                        window.addEventListener('scroll',sc);
                         var list = document.querySelectorAll('.cover');
                         list.forEach((item,index) => {
                             item.addEventListener('click',function(event){
@@ -60,7 +60,7 @@ if(CookieUtil.get('name')){
                         }else{
                             id++;
                             useXhr(xhr,id);
-                        }  
+                        }
                     }else{
                         alert("XHR接收数据失败：" + xhr.status);
                     }
@@ -87,9 +87,22 @@ if(CookieUtil.get('name')){
         }
         window.addEventListener('resize',re);
 
-        /*window.addEventListener('scroll',function(event){
-            console.log(event.detail);
-        });*/
+        function getScrollDiffer(){
+            if(document.body.scrollTop){
+                var scrollTop = document.body.scrollTop;
+            }else if(document.documentElement.scrollTop){
+                var scrollTop = document.documentElement.scrollTop;
+            }
+            return (document.body.scrollHeight - (document.body.clientHeight+scrollTop));
+        }
+        function sc(event){
+            if(getScrollDiffer() < 20){
+                id++;
+                useXhr(xhr,id);
+                window.removeEventListener('scroll',re);
+            }
+        }
+        window.addEventListener('scroll',sc);
 
         //var current = document.getElementsByClassName('current')[0].innerText;
         
