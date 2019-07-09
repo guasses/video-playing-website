@@ -32,14 +32,15 @@ http.createServer(function(request,response){
                 baseModel.findOneById('movie',{'link':post.link},function(set){
                     if(set){
                         console.log("重复插入数据！");
-                        baseModel = null;
+                        
                     }else{
                         baseModel.insert('movie',post,function(set){
                             console.log(set);
-                            baseModel = null;
                         });
                     }
                 });
+                baseModel.end();
+                baseModel = null;
             }
         });
     }else if(pathname == '/text/ajax.txt'){
@@ -53,6 +54,7 @@ http.createServer(function(request,response){
                 console.log("未查找到数据！");
             }
         });
+        baseModel.end();
         baseModel = null;  
     }else if(pathname == '/text/zc.txt'){
         request.on('data',function(chunk){
@@ -80,6 +82,8 @@ http.createServer(function(request,response){
                     });
                 }
             });
+            baseModel.end();
+            baseModel = null;
         });
         
     }else if(pathname == '/text/pre_users.txt'){
@@ -93,6 +97,8 @@ http.createServer(function(request,response){
                 console.log("未查找到数据！");
             }
         });
+        baseModel.end();
+        baseModel = null;
     }else if(pathname == '/text/check.txt'){
         var baseModel = new BaseModel();
         request.on('data',function(chunk){
@@ -120,7 +126,9 @@ http.createServer(function(request,response){
                     }else{
                         console.log("通过审核查询数据失败！");
                     }
-                })
+                });
+                baseModel.end();
+                baseModel = null;
             }else if(check_post.delete){
                 baseModel.remove('pre_users',{'id':check_post.zc_id},function(result){
                     if(result){
@@ -129,6 +137,8 @@ http.createServer(function(request,response){
                         console.log("删除，删除注册数据库数据失败！");
                     }
                 });
+                baseModel.end();
+                baseModel = null;
             }
         });
     }else if(pathname == '/text/users.txt'){
@@ -150,6 +160,8 @@ http.createServer(function(request,response){
                     response.end();
                 }
             });
+            baseModel.end();
+            baseModel = null;
         })
     }else if(pathname == '/text/movie_list.txt'){
         request.on('data',function(chunk){
@@ -164,11 +176,13 @@ http.createServer(function(request,response){
                     response.write(resultsStr);
                     response.end();
                 }else{
-                    console.log("未查找到电影数据！");
+                    console.log("未查找到电影数据！id="+movie_list_post);
                     response.write('0');
                     response.end();
                 }
             });
+            baseModel.end();
+            baseModel = null;
         });
     }else if(pathname == '/text/movie.txt'){
         request.on('data',function(chunk){
@@ -182,11 +196,13 @@ http.createServer(function(request,response){
                     response.write(resultStr);
                     response.end();
                 }else{
-                    console.log("未找到视频数据！");
+                    console.log("未找到视频数据！id="+movie_post);
                     response.write('0');
                     response.end();
                 }
             });
+            baseModel.end();
+            baseModel = null;
         });
     }
     

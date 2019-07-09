@@ -35,7 +35,6 @@ module.exports = function(){
         dbClient.query('USE ' + dbConfig['dbName'],function(err,results){
             if(err){
                 console.log('数据库连接错误：' + err.message);
-                dbClient.end();
             }
             console.log('数据库连接成功！');
         })
@@ -51,7 +50,7 @@ module.exports = function(){
         dbClient.query('INSERT INTO ' + tableName + ' SET ?',rowInfo,function(err,results){
             if(err) throw err;
             callback(results.insertId);
-        })
+        });
     }
     /**
      * @desc 根据主键id值查询数据库的一条记录
@@ -64,8 +63,8 @@ module.exports = function(){
         dbClient.query('SELECT * FROM ' + tableName + ' WHERE ?',idJson,function(err,result){
             if(err){
                 console.log('获取数据错误：' + err.message);
-                dbClient.end();
                 callback(false);
+                dbClient.end();
             }else{
                 if(result){
                     callback(result.pop());
@@ -88,7 +87,6 @@ module.exports = function(){
             function(err,result){
                 if(err){
                     console.log('修改数据错误：' + err.message);
-                    dbClient.end();
                     callback(false);
                 }else{
                     callback(result);
@@ -106,7 +104,6 @@ module.exports = function(){
         dbClient.query('DELETE from ' + tableName + ' where ?',idJson,function(err,results){
             if(err){
                 console.log("删除数据错误：" + err.message);
-                dbClient.end();
                 callback(false);
             }else{
                 callback(true);
@@ -158,7 +155,6 @@ module.exports = function(){
         dbClient.query(sql,function(err,results){
             if(err){
                 console.log('获取数据错误：' + err.message);
-                dbClient.end();
                 callback(false);
             }else{
                 console.log('数据查询成功！');
@@ -175,13 +171,18 @@ module.exports = function(){
         dbClient.query('SELECT count(*) from ' + tableName,function(err,result){
             if(err){
                 console.log('获取数据错误：' + err.message);
-                dbClient.end();
                 callback(false);
             }else{
                 console.log('查询电影数据总条数成功！');
                 callback(result[0]['count(*)']);
             }
         });
+    }
+    /**
+     * @desc 关闭数据库连接
+     */
+    this.end = function(){
+        dbClient.end();
     }
     
 }
