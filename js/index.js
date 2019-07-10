@@ -1,7 +1,6 @@
 if(CookieUtil.get('name')){
     var id = 1;
     window.addEventListener('load',function(event){
-
         const indicator = document.querySelector('.nav-indicator');
         const items = document.querySelectorAll('.nav-item');
 

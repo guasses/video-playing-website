@@ -171,6 +171,7 @@ http.createServer(function(request,response){
             movie_list_post += chunk;
         });
         request.on('end',function(){
+            console.log("请求查找id="+movie_list_post+"的数据");
             var baseModel = new BaseModel();
             baseModel.count('movie',function(result){
                 if(result){
@@ -189,8 +190,6 @@ http.createServer(function(request,response){
                                 response.write('0');
                                 response.end();
                             }
-                            baseModel.end();
-                            baseModel = null;
                         });
                     }
                 }
