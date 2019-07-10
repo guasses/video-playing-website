@@ -43,7 +43,22 @@ if(CookieUtil.get('name')=='admin'){
         checkXhr.open("post","./text/pre_users.txt",true);
         //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         checkXhr.send(null);
-        query.addEventListener('click',function(event){
+
+        var count = document.getElementById('count');
+        var countXhr = new XMLHttpRequest();
+        countXhr.onreadystatechange = function(){
+            if(countXhr.readyState == 4){
+                if((countXhr.status >= 200 && countXhr.status < 300) || countXhr.status == 304){
+                    count.innerText = "当前数据共"+countXhr.responseText+"条。"
+                }else{
+                    alert("XHR接收数据失败：" + countXhr.status);
+                }
+            }
+        }
+        countXhr.open('post','./text/count.txt',true);
+        countXhr.send(null);
+        var id = 1;
+        function next(){
             tbody.innerHTML = '';
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -56,6 +71,7 @@ if(CookieUtil.get('name')=='admin'){
                             data[i]['name'] + "</td><td>" +
                             data[i]['ename'] + "</td><td>" +
                             data[i]['country'] + "</td><td>" +
+                            data[i]['time'] + "</td><td>" +
                             data[i]['type'] + "</td><td>" +
                             data[i]['link'] + "</td><td>" +                        
                             data[i]['cover_link'] + "</td><td>" +
@@ -72,8 +88,13 @@ if(CookieUtil.get('name')=='admin'){
             };
             xhr.open("post","./text/ajax.txt",true);
             //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-            xhr.send(null);
-        });
+            xhr.send(id);
+            id++;
+        }
+        query.addEventListener('click',next);
+        var nextButton = document.getElementById('next');
+        nextButton.addEventListener('click',next);
+        
     });
 }else{
     window.location.href = 'login.html';

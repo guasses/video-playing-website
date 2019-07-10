@@ -15,6 +15,7 @@ http.createServer(function(request,response){
     var dl_post = "";
     var movie_list_post = "";
     var movie_post = "";
+    var ajax_post = "";
     var pathname = url.parse(request.url).pathname;
     var ipv4 = get_client_ipv4(request);
     if(pathname=="/"){
@@ -44,18 +45,22 @@ http.createServer(function(request,response){
             }
         });
     }else if(pathname == '/text/ajax.txt'){
-        var baseModel = new BaseModel();
-        baseModel.find('movie',{'and':[],'or':[]},{'key':'id','type':'desc'},[0,20],[],function(results){
-            if(results){
-                var resultsStr = JSON.stringify(results);
-                response.write(resultsStr);
-                response.end();
-            }else{
-                console.log("未查找到数据！");
-            }
+        request.on('data',function(chunk){
+            ajax_post += chunk;
         });
-        baseModel.end();
-        baseModel = null;  
+        request.on('end',function(){
+            console.log(ajax_post);
+            var baseModel = new BaseModel();
+            baseModel.find('movie',{'and':[],'or':[]},{'key':'id','type':'desc'},[(20*(Number(ajax_post)-1)),20],[],function(results){
+                if(results){
+                    var resultsStr = JSON.stringify(results);
+                    response.write(resultsStr);
+                    response.end();
+                }else{
+                    console.log("未查找到数据！");
+                }
+            });
+        }); 
     }else if(pathname == '/text/zc.txt'){
         request.on('data',function(chunk){
             login_post += chunk;
@@ -171,22 +176,73 @@ http.createServer(function(request,response){
             movie_list_post += chunk;
         });
         request.on('end',function(){
-            console.log("请求查找id="+movie_list_post+"的数据");
+            var data = querystring.parse(movie_list_post);
+            console.log(`请求查找id=${data['id']},country=${data['country']},type=${data['type']},time=${data['time']},sort=${data['sort']}的数据`);
             var baseModel = new BaseModel();
             baseModel.count('movie',function(result){
                 if(result){
-                    if(Math.ceil(result/12.0)<Number(movie_list_post)){
+                    if(Math.ceil(result/12.0)<Number(data['id'])){
                         response.write('1');
                         response.end();
                     }else{
-                        baseModel.find('movie',{'and':[],'or':[]},{'key':'id','type':'desc'},[(12*(Number(movie_list_post)-1)),
+                        var whereJson = {
+                            'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'time','opts':'=','value':`"${data['time']}"`}],
+                            'or':[]
+                        };
+                        if(data['country'] == '全部' && data['type'] == '全部' && data['time'] == '全部'){
+                            whereJson = {
+                                'and':[],'or':[]
+                            }
+                        }else if(data['country'] == '全部' && data['type'] == '全部'){
+                            whereJson = {
+                                'and':[{'key':'time','opts':'=','value':`"${data['time']}"`}],'or':[]
+                            }
+                        }else if(data['country'] == '全部' && data['time'] == '全部'){
+                            whereJson = {
+                                'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`}],'or':[]
+                            }
+                        }else if(data['type'] == '全部' && data['time'] == '全部'){
+                            whereJson = {
+                                'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`}],'or':[]
+                            }
+                        }else if(data['country'] == '全部'){
+                            whereJson = {
+                                'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                                {'key':'time','opts':'=','value':`"${data['time']}"`}],
+                                'or':[]
+                            };
+                        }else if(data['type'] == '全部'){
+                            whereJson = {
+                                'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                                {'key':'time','opts':'=','value':`"${data['time']}"`}],
+                                'or':[]
+                            };
+                        }else if(data['time'] == '全部'){
+                            whereJson = {
+                                'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                                {'key':'type','opts':' like ','value':`"%${data['type']}%"`}],
+                                'or':[]
+                            };
+                        }
+                        var sort = '';
+                        if(data['sort'] == '默认'){
+                            sort = 'id';
+                        }else if(data['sort'] == '豆瓣评分'){
+                            sort = 'score';
+                        }else if(data['sort'] == '观看次数'){
+                            sort = 'click';
+                        }
+                        var orderByJson = {'key':`${sort}`,'type':'desc'};
+                        baseModel.find('movie',whereJson,orderByJson,[(12*(Number(data['id'])-1)),
                         12],[],function(results){
                             if(results.length != 0){
                                 var resultsStr = JSON.stringify(results);
                                 response.write(resultsStr);
                                 response.end();
                             }else{
-                                console.log("未查找到电影数据！id="+movie_list_post);
+                                console.log("未查找到电影数据！id="+data['id']);
                                 response.write('0');
                                 response.end();
                             }
@@ -214,6 +270,16 @@ http.createServer(function(request,response){
                 baseModel.end();
                 baseModel = null;
             });
+        });
+    }else if(pathname == '/text/count.txt'){
+        var baseModel = new BaseModel();
+        baseModel.count('movie',function(result){
+            if(result){
+                response.write(String(result));
+                response.end();
+            }else{
+                console.log("获取数据总条数失败！");
+            } 
         });
     }
     

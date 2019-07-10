@@ -35,6 +35,7 @@ module.exports = function(){
         dbClient.query('USE ' + dbConfig['dbName'],function(err,results){
             if(err || results == undefined){
                 console.log('数据库连接错误：' + err.message);
+                dbClient.end();
             }else{
                 console.log('数据库连接成功！');
             }
@@ -152,7 +153,7 @@ module.exports = function(){
             sql = 'SELECT ' + filedsStr + ' FROM ' + tableName + ' where ' +
             andStr + orStr + orderStr + limitStr;
         }
-        //console.log(sql);
+        console.log(sql);
         dbClient.query(sql,function(err,results){
             if(err){
                 console.log('获取数据错误：' + err.message);

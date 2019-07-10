@@ -27,18 +27,28 @@ if(CookieUtil.get('name')){
         signOut.addEventListener('click',function(event){
             CookieUtil.unset('name');
         });
-        /*var pages = document.querySelectorAll('.page');
-        pages.forEach((item,index)=>{
-            item.addEventListener('click',function(event){
-                var current = document.getElementsByClassName('current')[0];
-                current.classList.remove('current');
-                item.classList.add('current');
+        
+        var categoryItems = document.querySelectorAll('.category a');
+        categoryItems.forEach((item,index)=>{
+            item.addEventListener('click',e=>{
+                var tmps =  item.parentElement.querySelectorAll('a');
+                tmps.forEach((tmp,index)=>{
+                    tmp.classList.remove('selected');
+                });
+                item.classList.add('selected');
+                var country = document.querySelector('#country .selected').innerText;
+                var type = document.querySelector('#type .selected').innerText;
+                var time = document.querySelector('#time .selected').innerText;
+                var sort = document.querySelector('#sort .selected').innerText;
+                id = 1;
+                movie_list.innerHTML = "";
+                useXhr(xhr,id,country,type,time,sort);
             });
-        });*/
+        });
         function hasScrollbar() {
             return document.body.scrollHeight > (window.innerHeight || document.documentElement.clientHeight);
         }
-        function useXhr(xhr,id){
+        function useXhr(xhr,id,country,type,time,sort){
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4){
                     if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
@@ -46,9 +56,10 @@ if(CookieUtil.get('name')){
                         if(xhr.responseText == 1){
                             var bottom = document.getElementById('bottom');
                             bottom.style.display = 'block';
-                        }else if(xhr.responseText == 0){
-                            alert("拉取数据库数据失败，请联系管理员！");
-                        }else if(xhr.responseText){
+                        }//else if(xhr.responseText == 0){
+                            //alert("拉取数据库数据失败，请联系管理员！");
+                        //}
+                        else if(xhr.responseText){
                             var data = JSON.parse(xhr.responseText);
                             for(var i =0;i<data.length;i++){
                                 var li = document.createElement('li');
@@ -70,7 +81,11 @@ if(CookieUtil.get('name')){
                                 return ;
                             }else{
                                 id++;
-                                useXhr(xhr,id);
+                                var country = document.querySelector('#country .selected').innerText;
+                                var type = document.querySelector('#type .selected').innerText;
+                                var time = document.querySelector('#time .selected').innerText;
+                                var sort = document.querySelector('#sort .selected').innerText;
+                                useXhr(xhr,id,country,type,time,sort);
                             }
                         }else{
                             alert('服务器返回值为false');
@@ -81,21 +96,29 @@ if(CookieUtil.get('name')){
                 }
             };
             xhr.open("post","./text/movie_list.txt",true);
-            xhr.send(id);     
+            xhr.send(`id=${id}&country=${country}&type=${type}&time=${time}&sort=${sort}`);     
         }
         if(hasScrollbar()){
             
         }else{
             var movie_list = document.getElementById('movie_list');
             var xhr = new XMLHttpRequest();
-            useXhr(xhr,id);
+            var country = document.querySelector('#country .selected').innerText;
+            var type = document.querySelector('#type .selected').innerText;
+            var time = document.querySelector('#time .selected').innerText;
+            var sort = document.querySelector('#sort .selected').innerText;
+            useXhr(xhr,id,country,type,time,sort);
         }
         function re(event){
             if(hasScrollbar()){
                 return ;
             }else{
                 id++;
-                useXhr(xhr,id);
+                var country = document.querySelector('#country .selected').innerText;
+                var type = document.querySelector('#type .selected').innerText;
+                var time = document.querySelector('#time .selected').innerText;
+                var sort = document.querySelector('#sort .selected').innerText;
+                useXhr(xhr,id,country,type,time,sort);
                 window.removeEventListener('resize',re);
             }
         }
@@ -112,7 +135,11 @@ if(CookieUtil.get('name')){
         function sc(event){
             if(getScrollDiffer() < 50){
                 id++;
-                useXhr(xhr,id);
+                var country = document.querySelector('#country .selected').innerText;
+                var type = document.querySelector('#type .selected').innerText;
+                var time = document.querySelector('#time .selected').innerText;
+                var sort = document.querySelector('#sort .selected').innerText;
+                useXhr(xhr,id,country,type,time,sort);
                 window.removeEventListener('scroll',sc);
             }
         }
