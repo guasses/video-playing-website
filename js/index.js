@@ -43,13 +43,13 @@ if(CookieUtil.get('name')){
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4){
                     if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+                        //window.removeEventListener('scroll',sc);
                         if(xhr.responseText == 1){
                             var bottom = document.getElementById('bottom');
                             bottom.style.display = 'block';
-                            window.removeEventListener('scroll',sc);
                         }else if(xhr.responseText == 0){
                             alert("拉取数据库数据失败，请联系管理员！");
-                        }else{
+                        }else if(xhr.responseText){
                             var data = JSON.parse(xhr.responseText);
                             for(var i =0;i<data.length;i++){
                                 var li = document.createElement('li');
@@ -73,6 +73,8 @@ if(CookieUtil.get('name')){
                                 id++;
                                 useXhr(xhr,id);
                             }
+                        }else{
+                            alert('服务器返回值为false');
                         }
                     }else{
                         alert("获取服务器数据失败：" + xhr.status);
@@ -112,7 +114,7 @@ if(CookieUtil.get('name')){
             if(getScrollDiffer() < 50){
                 id++;
                 useXhr(xhr,id);
-                window.removeEventListener('scroll',re);
+                window.removeEventListener('scroll',sc);
             }
         }
         window.addEventListener('scroll',sc);

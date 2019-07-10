@@ -36,7 +36,7 @@ module.exports = function(){
             if(err || results == undefined){
                 console.log('数据库连接错误：' + err.message);
             }else{
-                console.log('数据库连接成功！'+ results);
+                console.log('数据库连接成功！');
             }
         })
     }
@@ -174,7 +174,7 @@ module.exports = function(){
                 console.log('获取数据错误：' + err.message);
                 callback(false);
             }else{
-                console.log('查询电影数据总条数成功！');
+                console.log('查询电影数据总条数成功！共'+result[0]['count(*)']+"条数据");
                 callback(result[0]['count(*)']);
             }
         });
