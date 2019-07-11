@@ -30,7 +30,7 @@ if(CookieUtil.get('name')){
             var name = document.getElementById("name").value;
             var passwd = document.getElementById("passwd").value;
             if(name != "" && passwd != ""){
-                var dlXhr = new XMLHttpRequest();
+                var dlXhr = createXHR();
                 dlXhr.onreadystatechange = function(){
                     if(dlXhr.readyState == 4){
                         if((dlXhr.status >= 200 && dlXhr.status < 300) || dlXhr.status == 304){
@@ -56,7 +56,7 @@ if(CookieUtil.get('name')){
             var passwd = document.getElementById("zc_passwd").value;
             var reason = document.getElementById("zc_reason").value;
             if(name !="" && passwd != "" && reason != ""){
-                var xhr = new XMLHttpRequest();
+                var xhr = createXHR();
                 xhr.onreadystatechange = function(){
                     if(xhr.readyState == 4){
                         if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
