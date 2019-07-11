@@ -69,7 +69,7 @@ if(CookieUtil.get('name')){
             return (document.body.scrollHeight - (document.body.clientHeight+scrollTop));
         }
         function sc(event){
-            if(getScrollDiffer() < 50){
+            if(getScrollDiffer() < 30){
                 id++;
                 var country = document.querySelector('#country .selected').innerText;
                 var type = document.querySelector('#type .selected').innerText;
@@ -139,7 +139,7 @@ if(CookieUtil.get('name')){
                             alert('服务器返回值为false');
                         }
                     }else{
-                        alert("获取服务器数据失败：" + xhr.status);
+                        //alert("获取服务器数据失败：" + xhr.status);
                     }
                 }
             };
