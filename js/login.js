@@ -1,36 +1,35 @@
 if(CookieUtil.get('name')){
     window.location.href = 'index.html';
 }else{
-    window.addEventListener("load",function(){
-        //登录、注册按钮跳转
+    EventUtil.addHandler(window,'load',function(e){
+        var title = document.getElementById('title');
         var signIn = document.getElementById("signIn");
         var register = document.getElementById("register");
+        var reg1 = document.getElementsByClassName('reg')[0];
+        var reg2 = document.getElementsByClassName('reg')[1];
+        reg2.style.display = "none";
         var dl = document.getElementById('dl');
         var zc = document.getElementById('zc');
-        signIn.addEventListener("click",function(){
+        EventUtil.addHandler(signIn,'click',function(event){
             myForm.style.display = "block";
             myForm1.style.display = "none";
-        },false);
-        register.addEventListener("click",function(){
+            title.innerHTML = '登录';
+            reg1.style.display = "block";
+            reg2.style.display = "none";
+        });
+        EventUtil.addHandler(register,'click',function(event){
             myForm.style.display = "none";
             myForm1.style.display = "block";
-        },false);
-    
-        //登录界面事件  
-        dl.addEventListener("click",function(event){
+            title.innerHTML = '注册';
+            reg1.style.display = "none";
+            reg2.style.display = "block";
+        });
+        EventUtil.addHandler(dl,'click',dlFc);
+        EventUtil.addHandler(zc,'click',zcFc);
+        function dlFc(event){
             var name = document.getElementById("name").value;
             var passwd = document.getElementById("passwd").value;
-            var tip = document.getElementById("tip");
-            if(name=="" && passwd==""){
-                tip.innerText = "请输入用户名和密码！"
-                tip.style.visibility = "visible";
-            }else if(passwd==""){
-                tip.innerText = "请输入密码！";
-                tip.style.visibility = "visible";
-            }else if(name==""){
-                tip.innerText = "请输入用户名！";
-                tip.style.visibility = "visible";
-            }else{
+            if(name != "" && passwd != ""){
                 var dlXhr = new XMLHttpRequest();
                 dlXhr.onreadystatechange = function(){
                     if(dlXhr.readyState == 4){
@@ -39,8 +38,7 @@ if(CookieUtil.get('name')){
                                 CookieUtil.set("name",name);
                                 window.location.href = "index.html";
                             }else{
-                                tip.innerText = "用户名或密码不正确！";
-                                tip.style.visibility = "visible";
+                                alert("用户名或密码不正确！");
                             }
                         }else{
                             alert("XHR接收数据失败：" + dlXhr.status);
@@ -50,31 +48,14 @@ if(CookieUtil.get('name')){
                 dlXhr.open("post","./text/users.txt",true);
                 //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
                 dlXhr.send("dl_name="+name+"&dl_password="+passwd);
-            }   
-        },false);
-    
-        //注册界面事件
-        zc.addEventListener("click",function(event){
+            }
+            
+        }
+        function zcFc(event){
             var name = document.getElementById("zc_name").value;
             var passwd = document.getElementById("zc_passwd").value;
             var reason = document.getElementById("zc_reason").value;
-            var tip = document.getElementById("zc_tip");
-            if(name=="" && passwd==""){
-                tip.innerText = "请输入用户名和密码！"
-                tip.style.visibility = "visible";
-            }else if(passwd==""){
-                tip.innerText = "请输入密码！";
-                tip.style.visibility = "visible";
-            }else if(name==""){
-                tip.innerText = "请输入用户名！";
-                tip.style.visibility = "visible";
-            }else if(reason==""){
-                tip.innerText = "请输入理由！";
-                tip.style.visibility = "visible";
-            }else if(passwd.length<6){
-                tip.innerText = "密码必须大于6位以上!";
-                tip.style.visibility = "vsiible";
-            }else{
+            if(name !="" && passwd != "" && reason != ""){
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function(){
                     if(xhr.readyState == 4){
@@ -90,11 +71,9 @@ if(CookieUtil.get('name')){
                     }
                 };
                 xhr.open("post","./text/zc.txt",true);
-                //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
                 xhr.send("zc_name="+name+"&zc_password="+passwd+"&zc_reason="+reason);
-            }
-              
-        },false);
+            }   
+        }
         class Vector2 {
             constructor(x = 0, y = 0) {
                 this.x = x;
@@ -358,5 +337,5 @@ if(CookieUtil.get('name')){
         
         setInterval(addRocket, 2000);
         render();
-    },false);
+    });
 }

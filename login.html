@@ -5,35 +5,32 @@
     <title>登陆</title>
     <link rel="stylesheet" href="css/login.css">
     <script src="js/cookie_util.js"></script>
+    <script src="js/cross-browser.js"></script>
     <script src="js/login.js"></script>
 </head>
 <body>
-    <header>
-        <nav>
-            <span id="signIn">登录</span>
-            <span>|</span>
-            <span id="register">注册</span>
-        </nav>
-    </header>
-    <div id="main">
-        <form id="myForm">
-            <h4>欢迎访问视频播放网站</h4>
-            <input id="name" name="name" class="name" type="text" placeholder="请输入用户名：" autocomplete="off"/>
-            <input id="passwd" name="password" class="pw" type="password" placeholder="请输入密码："/>
-            <li><a href="#">忘记密码？</a></li>
-            <input id="dl" class="button" value="登录"/>
-            <p id="tip" class="hidden"></p>
-        </form>
-
-        <form id="myForm1">
-            <h4>注册后请等待审核</h4>
-            <input type="text" autocomplete="off" id="zc_name" name="zc_name" placeholder="请输入用户名：">
-            <input type="password" id="zc_passwd" name="zc_password" placeholder="请输入密码：">
-            <input type="text" autocomplete="off" id="zc_reason" placeholder="请输入理由：">
-            <input class="button" value="注册" id="zc">
-            <p id="zc_tip" class="hidden"></p>
-        </form>
+    <div class="container">
+        <div class="item">
+            <h4 id='title'>登录</h4>
+            <div class="flex-form">
+                <form id="myForm">
+                    <input type="text" id="name" name="name" placeholder="用户名" required autocomplete="off">
+                    <input type="password" id="passwd" name="password" placeholder="密码" required autocomplete="off">
+                    <button id="dl">登录</button>
+                </form>
+                <form id="myForm1">
+                    <input type="text" id="zc_name" name="zc_name" placeholder="用户名" required autocomplete="off">
+                    <input type="password" id="zc_passwd" name="zc_password" placeholder="密码" required autocomplete="off">
+                    <input type="text" id="zc_reason" placeholder="理由" required autocomplete="off">
+                    <button id="zc">注册</button>
+                </form>
+            </div>
+            <p class="reg">还没有账户？<a href="#" id="register">注册</a></p>
+            <p class="reg">已拥有账户？<a href="#" id="signIn">登录</a></p>
+        </div>
     </div>
-    <footer></footer>
+    <footer>
+
+    </footer>
 </body>
 </html>

@@ -196,9 +196,35 @@ http.createServer(function(request,response){
                                 'and':[],'or':[]
                             }
                         }else if(data['country'] == '全部' && data['type'] == '全部'){
-                            whereJson = {
-                                'and':[{'key':'time','opts':'=','value':`"${data['time']}"`}],'or':[]
-                            }
+                            if(data['time'] == '00年代'){
+                                whereJson = {
+                                    'and':[{'key':'time','opts':'<','value':`2010`},
+                                    {'key':'time','opts':'>=','value':`2000`}],'or':[]
+                                }
+                            }else if(data['time'] == '90年代'){
+                                whereJson = {
+                                    'and':[{'key':'time','opts':'<','value':`2000`},
+                                    {'key':'time','opts':'>=','value':`1990`}],'or':[]
+                                }
+                            }else if(data['time'] == '80年代'){
+                                whereJson = {
+                                    'and':[{'key':'time','opts':'<','value':`1990`},
+                                    {'key':'time','opts':'>=','value':`1980`}],'or':[]
+                                }
+                            }else if(data['time'] == '70年代'){
+                                whereJson = {
+                                    'and':[{'key':'time','opts':'<','value':`1980`},
+                                    {'key':'time','opts':'>=','value':`1970`}],'or':[]
+                                }
+                            }else if(data['time'] == '更早'){
+                                whereJson = {
+                                    'and':[{'key':'time','opts':'<','value':`1970`}],'or':[]
+                                }
+                            }else{
+                                whereJson = {
+                                    'and':[{'key':'time','opts':'=','value':`"${data['time']}"`}],'or':[]
+                                }
+                            } 
                         }else if(data['country'] == '全部' && data['time'] == '全部'){
                             whereJson = {
                                 'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`}],'or':[]
@@ -208,17 +234,79 @@ http.createServer(function(request,response){
                                 'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`}],'or':[]
                             }
                         }else if(data['country'] == '全部'){
-                            whereJson = {
-                                'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
-                                {'key':'time','opts':'=','value':`"${data['time']}"`}],
-                                'or':[]
-                            };
+                            if(data['time'] == '00年代'){
+                                whereJson = {
+                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                                    {'key':'time','opts':'<','value':`2010`},
+                                    {'key':'time','opts':'>=','value':`2000`}],'or':[]
+                                }
+                            }else if(data['time'] == '90年代'){
+                                whereJson = {
+                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                                    {'key':'time','opts':'<','value':`2000`},
+                                    {'key':'time','opts':'>=','value':`1990`}],'or':[]
+                                }
+                            }else if(data['time'] == '80年代'){
+                                whereJson = {
+                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                                    {'key':'time','opts':'<','value':`1990`},
+                                    {'key':'time','opts':'>=','value':`1980`}],'or':[]
+                                }
+                            }else if(data['time'] == '70年代'){
+                                whereJson = {
+                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                                    {'key':'time','opts':'<','value':`1980`},
+                                    {'key':'time','opts':'>=','value':`1970`}],'or':[]
+                                }
+                            }else if(data['time'] == '更早'){
+                                whereJson = {
+                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                                    {'key':'time','opts':'<','value':`1970`}],'or':[]
+                                }
+                            }else{
+                                whereJson = {
+                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                                    {'key':'time','opts':'=','value':`"${data['time']}"`}],
+                                    'or':[]
+                                };
+                            }
                         }else if(data['type'] == '全部'){
-                            whereJson = {
-                                'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
-                                {'key':'time','opts':'=','value':`"${data['time']}"`}],
-                                'or':[]
-                            };
+                            if(data['time'] == '00年代'){
+                                whereJson = {
+                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                                    {'key':'time','opts':'<','value':`2010`},
+                                    {'key':'time','opts':'>=','value':`2000`}],'or':[]
+                                }
+                            }else if(data['time'] == '90年代'){
+                                whereJson = {
+                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                                    {'key':'time','opts':'<','value':`2000`},
+                                    {'key':'time','opts':'>=','value':`1990`}],'or':[]
+                                }
+                            }else if(data['time'] == '80年代'){
+                                whereJson = {
+                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                                    {'key':'time','opts':'<','value':`1990`},
+                                    {'key':'time','opts':'>=','value':`1980`}],'or':[]
+                                }
+                            }else if(data['time'] == '70年代'){
+                                whereJson = {
+                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                                    {'key':'time','opts':'<','value':`1980`},
+                                    {'key':'time','opts':'>=','value':`1970`}],'or':[]
+                                }
+                            }else if(data['time'] == '更早'){
+                                whereJson = {
+                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                                    {'key':'time','opts':'<','value':`1970`}],'or':[]
+                                }
+                            }else{
+                                whereJson = {
+                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                                    {'key':'time','opts':'=','value':`"${data['time']}"`}],
+                                    'or':[]
+                                };
+                            }
                         }else if(data['time'] == '全部'){
                             whereJson = {
                                 'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
