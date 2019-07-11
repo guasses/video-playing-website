@@ -30,8 +30,32 @@ if(CookieUtil.get('name')){
         var xhr = new XMLHttpRequest();
         var movie_list = document.getElementById('movie_list');
         var categoryItems = document.querySelectorAll('.category a');
+        var searchIcon = document.getElementById('search_icon');
+        var search = document.getElementById('search');
+        searchIcon.addEventListener('click',function(){
+            if(search.style.display == '' || search.style.display == 'none'){
+                search.style.display = 'block';
+                window.scrollTo(0,0);
+            }else if(search.style.display == 'block'){
+                search.style.display = 'none';
+            }
+        });
+        var searchText = document.getElementById('search_text');
+        var searchButton = document.getElementById('search_button');
+        searchButton.addEventListener('click',searchFc);
+        window.addEventListener('keyup',function(event){
+            if(event.keyCode == 13){
+                searchFc(event);
+            }
+        });
+        function searchFc(event){
+            id = 1;
+            movie_list.innerHTML = "";
+            useXhr(xhr,id,"全部","全部","全部","豆瓣评分",searchText.value);
+        }
         categoryItems.forEach((item,index)=>{
             item.addEventListener('click',e=>{
+                searchText.value = "";
                 var tmps =  item.parentElement.querySelectorAll('a');
                 tmps.forEach((tmp,index)=>{
                     tmp.classList.remove('selected');
@@ -96,7 +120,7 @@ if(CookieUtil.get('name')){
         function hasScrollbar() {
             return document.body.scrollHeight > (window.innerHeight || document.documentElement.clientHeight);
         }
-        function useXhr(xhr,id,country,type,time,sort){
+        function useXhr(xhr,id,country,type,time,sort,name=searchText.value){
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4){
                     if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
@@ -144,7 +168,7 @@ if(CookieUtil.get('name')){
                 }
             };
             xhr.open("post","./text/movie_list.txt",true);
-            xhr.send(`id=${id}&country=${country}&type=${type}&time=${time}&sort=${sort}`);     
+            xhr.send(`id=${id}&country=${country}&type=${type}&time=${time}&sort=${sort}&name=${name}`);     
         }
         //var current = document.getElementsByClassName('current')[0].innerText;
         

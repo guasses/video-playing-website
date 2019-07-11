@@ -86,6 +86,88 @@ body {
   }
 }
 
+#search_icon{
+    position: fixed;
+    top: 180px;
+    width: 50px;
+    background: white;
+    text-align: center;
+    font-size: 2em;
+    color: #cfcfcf;
+    cursor: pointer;
+    border-radius: 5px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+#search{
+    display:none;
+}
+.border {
+    margin: 0 auto;
+    width: 400px;
+    height: 55px;
+    padding: 7px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    border-bottom: 0px solid transparent;
+    -webkit-transition: all 0.15s;
+    -moz-transition: all 0.15s;
+  }
+  .border:hover .button {
+    opacity: 1;
+  }
+  .border:hover input {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2) inset;
+  }
+  input {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 84%;
+    height: 100%;
+    background: #fff;
+    color: black;
+    font-size: 1em;
+    font-weight: 600;
+    padding: 10px;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 -1px 1px rgba(255, 255, 255, 0.25), 0 1px 5px rgba(0, 0, 0, 0.15);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    -webkit-transition: 0.25s;
+    -moz-transition: 0.25s;
+  }
+  input:focus {
+    outline: none;
+  }
+  input:focus + .button {
+    opacity: 1;
+  }
+  
+  .button {
+    float: right;
+    opacity: .80;
+    width: 14%;
+    height: 100%;
+    margin: 0;
+    background: #cfcfcf;
+    text-align: center;
+    font-size: 2em;
+    color: #cfcfcf;
+    cursor: pointer;
+    border-radius: 5px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+  }
+  .button:active {
+    border-bottom: 0;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
+  }
+
 .category{
     text-align: left;
     background: #f8f8f8;
@@ -132,9 +214,8 @@ body {
     border-radius: 13px;
     color: #fff;
 }
-
 .main{
-    margin: 15px auto;
+    margin: 5px auto;
     margin-left: 30px;
     width:100%;
 }

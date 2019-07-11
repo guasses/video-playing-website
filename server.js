@@ -191,7 +191,12 @@ http.createServer(function(request,response){
                             {'key':'time','opts':'=','value':`"${data['time']}"`}],
                             'or':[]
                         };
-                        if(data['country'] == '全部' && data['type'] == '全部' && data['time'] == '全部'){
+                        if(data['name']!=""){
+                            var whereJson = {
+                                'and':[{'key':'name','opts':' like ','value':`"%${data['name']}%"`}],
+                                'or':[]
+                            };
+                        }else if(data['country'] == '全部' && data['type'] == '全部' && data['time'] == '全部'){
                             whereJson = {
                                 'and':[],'or':[]
                             }
