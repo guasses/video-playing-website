@@ -7,6 +7,8 @@ if(CookieUtil.get('name')){
         var register = document.getElementById("register");
         var reg1 = document.getElementsByClassName('reg')[0];
         var reg2 = document.getElementsByClassName('reg')[1];
+        var myForm = document.getElementById('myForm');
+        var myForm1 = document.getElementById('myForm1');
         reg2.style.display = "none";
         var dl = document.getElementById('dl');
         var zc = document.getElementById('zc');
@@ -24,7 +26,23 @@ if(CookieUtil.get('name')){
             reg1.style.display = "none";
             reg2.style.display = "block";
         });
+        EventUtil.addHandler(myForm,'submit',function(event){
+            event = EventUtil.getEvent(event);
+            EventUtil.preventDefault(event);
+        });
+        EventUtil.addHandler(myForm1,'submit',function(event){
+            event = EventUtil.getEvent(event);
+            EventUtil.preventDefault(event);
+        });
         EventUtil.addHandler(dl,'click',dlFc);
+        EventUtil.addHandler(window,'keyup',function(event){
+            event = EventUtil.getEvent(event);
+            if(myForm.style.display == "block" && event.keyCode == 13){
+                dlFc(event);
+            }else if(myForm1.style.display == "block" && event.keyCode == 13){
+                zcFc(event);
+            }
+        });
         EventUtil.addHandler(zc,'click',zcFc);
         function dlFc(event){
             var name = document.getElementById("name").value;
