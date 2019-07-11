@@ -72,7 +72,7 @@ body {
     align-items: center;
   }
   
-  form {
+  .flex-form div{
     padding: 0 25px;
   }
   
