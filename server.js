@@ -39,8 +39,6 @@ http.createServer(function(request,response){
                             console.log(set);
                         });
                     }
-                    baseModel.end();
-                    baseModel = null;
                 });
             }
         });
@@ -102,8 +100,6 @@ http.createServer(function(request,response){
             }else{
                 console.log("未查找到数据！");
             }
-            baseModel.end();
-            baseModel = null;
         });
     }else if(pathname == '/text/check.txt'){
         var baseModel = new BaseModel();
@@ -128,8 +124,6 @@ http.createServer(function(request,response){
                             }else{
                                 console.log("正式库插入数据失败！");
                             }
-                            baseModel.end();
-                            baseModel = null;
                         });
                     }else{
                         console.log("通过审核查询数据失败！");
@@ -334,10 +328,14 @@ http.createServer(function(request,response){
                                 var resultsStr = JSON.stringify(results);
                                 response.write(resultsStr);
                                 response.end();
+                                baseModel.end();
+                                baseModel = null; 
                             }else{
                                 console.log("未查找到电影数据！id="+data['id']);
                                 response.write('0');
                                 response.end();
+                                baseModel.end();
+                                baseModel = null; 
                             }
                         });
                     }
