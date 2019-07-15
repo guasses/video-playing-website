@@ -161,148 +161,14 @@ http.createServer(function(request,response){
         });
         request.on('end',function(){
             var data = querystring.parse(movie_list_post);
-            console.log(`请求查找id=${data['id']},country=${data['country']},type=${data['type']},time=${data['time']},sort=${data['sort']}的数据`);
+            console.log(`请求查找id=${data['id']},country=${data['country']},type=${data['type']},time=${data['time']},sort=${data['sort']}的数据,name=${data['name']}`);
             var baseModel = new BaseModel();
-            baseModel.count('movie',function(result){
+            function findMovies(result,data,whereJson){
                 if(result){
                     if(Math.ceil(result/12.0)<Number(data['id'])){
                         response.write('1');
                         response.end();
                     }else{
-                        var whereJson = {
-                            'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
-                            {'key':'type','opts':' like ','value':`"%${data['type']}%"`},
-                            {'key':'time','opts':'=','value':`"${data['time']}"`}],
-                            'or':[]
-                        };
-                        if(data['name']!=""){
-                            var whereJson = {
-                                'and':[{'key':'name','opts':' like ','value':`"%${data['name']}%"`}],
-                                'or':[]
-                            };
-                        }else if(data['country'] == '全部' && data['type'] == '全部' && data['time'] == '全部'){
-                            whereJson = {
-                                'and':[],'or':[]
-                            }
-                        }else if(data['country'] == '全部' && data['type'] == '全部'){
-                            if(data['time'] == '00年代'){
-                                whereJson = {
-                                    'and':[{'key':'time','opts':'<','value':`2010`},
-                                    {'key':'time','opts':'>=','value':`2000`}],'or':[]
-                                }
-                            }else if(data['time'] == '90年代'){
-                                whereJson = {
-                                    'and':[{'key':'time','opts':'<','value':`2000`},
-                                    {'key':'time','opts':'>=','value':`1990`}],'or':[]
-                                }
-                            }else if(data['time'] == '80年代'){
-                                whereJson = {
-                                    'and':[{'key':'time','opts':'<','value':`1990`},
-                                    {'key':'time','opts':'>=','value':`1980`}],'or':[]
-                                }
-                            }else if(data['time'] == '70年代'){
-                                whereJson = {
-                                    'and':[{'key':'time','opts':'<','value':`1980`},
-                                    {'key':'time','opts':'>=','value':`1970`}],'or':[]
-                                }
-                            }else if(data['time'] == '更早'){
-                                whereJson = {
-                                    'and':[{'key':'time','opts':'<','value':`1970`}],'or':[]
-                                }
-                            }else{
-                                whereJson = {
-                                    'and':[{'key':'time','opts':'=','value':`"${data['time']}"`}],'or':[]
-                                }
-                            } 
-                        }else if(data['country'] == '全部' && data['time'] == '全部'){
-                            whereJson = {
-                                'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`}],'or':[]
-                            }
-                        }else if(data['type'] == '全部' && data['time'] == '全部'){
-                            whereJson = {
-                                'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`}],'or':[]
-                            }
-                        }else if(data['country'] == '全部'){
-                            if(data['time'] == '00年代'){
-                                whereJson = {
-                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
-                                    {'key':'time','opts':'<','value':`2010`},
-                                    {'key':'time','opts':'>=','value':`2000`}],'or':[]
-                                }
-                            }else if(data['time'] == '90年代'){
-                                whereJson = {
-                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
-                                    {'key':'time','opts':'<','value':`2000`},
-                                    {'key':'time','opts':'>=','value':`1990`}],'or':[]
-                                }
-                            }else if(data['time'] == '80年代'){
-                                whereJson = {
-                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
-                                    {'key':'time','opts':'<','value':`1990`},
-                                    {'key':'time','opts':'>=','value':`1980`}],'or':[]
-                                }
-                            }else if(data['time'] == '70年代'){
-                                whereJson = {
-                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
-                                    {'key':'time','opts':'<','value':`1980`},
-                                    {'key':'time','opts':'>=','value':`1970`}],'or':[]
-                                }
-                            }else if(data['time'] == '更早'){
-                                whereJson = {
-                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
-                                    {'key':'time','opts':'<','value':`1970`}],'or':[]
-                                }
-                            }else{
-                                whereJson = {
-                                    'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
-                                    {'key':'time','opts':'=','value':`"${data['time']}"`}],
-                                    'or':[]
-                                };
-                            }
-                        }else if(data['type'] == '全部'){
-                            if(data['time'] == '00年代'){
-                                whereJson = {
-                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
-                                    {'key':'time','opts':'<','value':`2010`},
-                                    {'key':'time','opts':'>=','value':`2000`}],'or':[]
-                                }
-                            }else if(data['time'] == '90年代'){
-                                whereJson = {
-                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
-                                    {'key':'time','opts':'<','value':`2000`},
-                                    {'key':'time','opts':'>=','value':`1990`}],'or':[]
-                                }
-                            }else if(data['time'] == '80年代'){
-                                whereJson = {
-                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
-                                    {'key':'time','opts':'<','value':`1990`},
-                                    {'key':'time','opts':'>=','value':`1980`}],'or':[]
-                                }
-                            }else if(data['time'] == '70年代'){
-                                whereJson = {
-                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
-                                    {'key':'time','opts':'<','value':`1980`},
-                                    {'key':'time','opts':'>=','value':`1970`}],'or':[]
-                                }
-                            }else if(data['time'] == '更早'){
-                                whereJson = {
-                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
-                                    {'key':'time','opts':'<','value':`1970`}],'or':[]
-                                }
-                            }else{
-                                whereJson = {
-                                    'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
-                                    {'key':'time','opts':'=','value':`"${data['time']}"`}],
-                                    'or':[]
-                                };
-                            }
-                        }else if(data['time'] == '全部'){
-                            whereJson = {
-                                'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
-                                {'key':'type','opts':' like ','value':`"%${data['type']}%"`}],
-                                'or':[]
-                            };
-                        }
                         var sort = '';
                         if(data['sort'] == '默认'){
                             sort = 'id';
@@ -318,19 +184,271 @@ http.createServer(function(request,response){
                                 var resultsStr = JSON.stringify(results);
                                 response.write(resultsStr);
                                 response.end();
-                                baseModel.end();
-                                baseModel = null; 
                             }else{
                                 console.log("未查找到电影数据！id="+data['id']);
                                 response.write('0');
-                                response.end();
-                                baseModel.end();
-                                baseModel = null; 
+                                response.end(); 
                             }
                         });
                     }
                 }
-            });
+            }
+            var whereJson = {};
+            if(data['name'] != ""){
+                baseModel.count('movie',`name like "%${data['name']}%"`,function(result){
+                    whereJson = {
+                        'and':[{'key':'name','opts':' like ','value':`"%${data['name']}%"`}],
+                        'or':[]
+                    };
+                    findMovies(result,data,whereJson);
+                });
+            }else if(data['country'] == '全部' && data['type'] == '全部' && data['time'] == '全部'){
+                baseModel.totalCount('movie',function(result){
+                    whereJson = {
+                        'and':[],'or':[]
+                    }
+                    findMovies(result,data,whereJson);
+                });
+            }else if(data['country'] == '全部' && data['type'] == '全部'){
+                if(data['time'] == '00年代'){
+                    baseModel.count('movie','time < 2010 and time >= 2000',function(result){
+                        whereJson = {
+                            'and':[{'key':'time','opts':'<','value':`2010`},
+                            {'key':'time','opts':'>=','value':`2000`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    }); 
+                }else if(data['time'] == '90年代'){
+                    baseModel.count('movie','time < 2000 and time >= 1990',function(result){
+                        whereJson = {
+                            'and':[{'key':'time','opts':'<','value':`2000`},
+                            {'key':'time','opts':'>=','value':`1990`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }else if(data['time'] == '80年代'){
+                    baseModel.count('movie','time < 1990 and time >= 1980',function(result){
+                        whereJson = {
+                            'and':[{'key':'time','opts':'<','value':`1990`},
+                            {'key':'time','opts':'>=','value':`1980`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }else if(data['time'] == '70年代'){
+                    baseModel.count('movie','time < 1980 and time >= 1970',function(result){
+                        whereJson = {
+                            'and':[{'key':'time','opts':'<','value':`1980`},
+                            {'key':'time','opts':'>=','value':`1970`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    }); 
+                }else if(data['time'] == '更早'){
+                    baseModel.count('movie','time < 1970',function(result){
+                        whereJson = {
+                            'and':[{'key':'time','opts':'<','value':`1970`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    }); 
+                }else{
+                    baseModel.count('movie','time = '+data['time'],function(result){
+                        whereJson = {
+                            'and':[{'key':'time','opts':'=','value':`"${data['time']}"`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }
+            }else if(data['country'] == '全部' && data['time'] == '全部'){
+                baseModel.count('movie',`type like "%${data['type']}%"`,function(result){
+                    whereJson = {
+                        'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`}],'or':[]
+                    }
+                    findMovies(result,data,whereJson);
+                });
+            }else if(data['type'] == '全部' && data['time'] == '全部'){
+                baseModel.count('movie',`country like "%${data['country']}%"`,function(result){
+                    whereJson = {
+                        'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`}],'or':[]
+                    }
+                    findMovies(result,data,whereJson);
+                });
+            }else if(data['country'] == '全部'){
+                if(data['time'] == '00年代'){
+                    baseModel.count('movie',`time < 2010 and time >= 2000 and type like "%${data['type']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'time','opts':'<','value':`2010`},
+                            {'key':'time','opts':'>=','value':`2000`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });  
+                }else if(data['time'] == '90年代'){
+                    baseModel.count('movie',`time < 2000 and time >= 1990 and type like "%${data['type']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'time','opts':'<','value':`2000`},
+                            {'key':'time','opts':'>=','value':`1990`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }else if(data['time'] == '80年代'){
+                    baseModel.count('movie',`time < 1990 and time >= 1980 and type like "%${data['type']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'time','opts':'<','value':`1990`},
+                            {'key':'time','opts':'>=','value':`1980`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }else if(data['time'] == '70年代'){
+                    baseModel.count('movie',`time < 1980 and time >= 1970 and type like "%${data['type']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'time','opts':'<','value':`1980`},
+                            {'key':'time','opts':'>=','value':`1970`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    }); 
+                }else if(data['time'] == '更早'){
+                    baseModel.count('movie',`time < 1970 and type like "%${data['type']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'time','opts':'<','value':`1970`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    }); 
+                }else{
+                    baseModel.count('movie',`time = ${data['time']} and type like "%${data['type']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'time','opts':'=','value':`"${data['time']}"`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }
+            }else if(data['type'] == '全部'){
+                if(data['time'] == '00年代'){
+                    baseModel.count('movie',`time < 2010 and time >= 2000 and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'<','value':`2010`},
+                            {'key':'time','opts':'>=','value':`2000`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });  
+                }else if(data['time'] == '90年代'){
+                    baseModel.count('movie',`time < 2000 and time >= 1990 and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'<','value':`2000`},
+                            {'key':'time','opts':'>=','value':`1990`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }else if(data['time'] == '80年代'){
+                    baseModel.count('movie',`time < 1990 and time >= 1980 and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'<','value':`1990`},
+                            {'key':'time','opts':'>=','value':`1980`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }else if(data['time'] == '70年代'){
+                    baseModel.count('movie',`time < 1980 and time >= 1970 and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'<','value':`1980`},
+                            {'key':'time','opts':'>=','value':`1970`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    }); 
+                }else if(data['time'] == '更早'){
+                    baseModel.count('movie',`time < 1970 and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'<','value':`1970`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    }); 
+                }else{
+                    baseModel.count('movie',`time = ${data['time']} and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'=','value':`"${data['time']}"`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }
+            }else if(data['time'] == '全部'){
+                baseModel.count('movie',`country like "%${data['country']}%" and type like "%${data['type']}%"`,function(result){
+                    whereJson = {
+                        'and':[{'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                        {'key':'type','opts':' like ','value':`"%${data['type']}%"`}],
+                        'or':[]
+                    };
+                    findMovies(result,data,whereJson);
+                });
+            }else{
+                if(data['time'] == '00年代'){
+                    baseModel.count('movie',`time < 2010 and time >= 2000 and type like "%${data['type']}%" and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'<','value':`2010`},
+                            {'key':'time','opts':'>=','value':`2000`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });  
+                }else if(data['time'] == '90年代'){
+                    baseModel.count('movie',`time < 2000 and time >= 1990 and type like "%${data['type']}%" and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'<','value':`2000`},
+                            {'key':'time','opts':'>=','value':`1990`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }else if(data['time'] == '80年代'){
+                    baseModel.count('movie',`time < 1990 and time >= 1980 and type like "%${data['type']}%" and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'<','value':`1990`},
+                            {'key':'time','opts':'>=','value':`1980`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }else if(data['time'] == '70年代'){
+                    baseModel.count('movie',`time < 1980 and time >= 1970 and type like "%${data['type']}%" and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'<','value':`1980`},
+                            {'key':'time','opts':'>=','value':`1970`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    }); 
+                }else if(data['time'] == '更早'){
+                    baseModel.count('movie',`time < 1970 and type like "%${data['type']}%" and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'<','value':`1970`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    }); 
+                }else{
+                    baseModel.count('movie',`time = ${data['time']} and type like "%${data['type']}%" and country like "%${data['country']}%"`,function(result){
+                        whereJson = {
+                            'and':[{'key':'type','opts':' like ','value':`"%${data['type']}%"`},
+                            {'key':'country','opts':' like ','value':`"%${data['country']}%"`},
+                            {'key':'time','opts':'=','value':`${data['time']}`}],'or':[]
+                        }
+                        findMovies(result,data,whereJson);
+                    });
+                }
+            }
         });
     }else if(pathname == '/text/movie.txt'){
         request.on('data',function(chunk){

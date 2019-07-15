@@ -202,23 +202,10 @@ module.exports = function(){
      */
     this.count = function(tableName,type,callback){
         query('SELECT count(case when '+ type +' then 1 else null end) from ' + tableName,[],function(results,fields){
-            /*if(err){
-                console.log('获取数据错误：' + err.message);
-                callback(false);
-            }else{*/
-            /*console.log("数据库查询总条数成功！共"+results[0]['count(*)']+"条数据！");
-            callback(results[0]['count(*)']);*/
             for(let x in results[0]){
                 console.log("数据库查询"+type+"条数成功！共"+results[0][x]+"条数据！")
                 callback(results[0][x]);
             }
         });
     }
-    /**
-     * @desc 关闭数据库连接
-     *
-    this.end = function(){
-        dbClient.end();
-    }
-    */
 }
