@@ -91,7 +91,10 @@ if(CookieUtil.get('name')=='admin'){
             xhr.send(id);
             id++;
         }
-        query.addEventListener('click',next);
+        query.addEventListener('click',function(event){
+            window.location.href = 'admin.html';
+            next();
+        });
         var nextButton = document.getElementById('next');
         nextButton.addEventListener('click',next);
         

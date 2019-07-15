@@ -470,7 +470,7 @@ http.createServer(function(request,response){
         });
     }else if(pathname == '/text/count.txt'){
         var baseModel = new BaseModel();
-        baseModel.count('movie',function(result){
+        baseModel.totalCount('movie',function(result){
             if(result){
                 response.write(String(result));
                 response.end();

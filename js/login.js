@@ -54,7 +54,11 @@ if(CookieUtil.get('name')){
                         if((dlXhr.status >= 200 && dlXhr.status < 300) || dlXhr.status == 304){
                             if(Number(dlXhr.responseText)){
                                 CookieUtil.set("name",name);
-                                window.location.href = "index.html";
+                                if(CookieUtil.get("name") == "admin"){
+                                    window.location.href = 'admin.html';
+                                }else{
+                                    window.location.href = "index.html";
+                                }
                             }else{
                                 alert("用户名或密码不正确！");
                             }
