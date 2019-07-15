@@ -16,6 +16,9 @@ baseModel.find(tableName,whereJson,orderByJson,limitArr,fieldsArr,function(ret){
     console.log(ret);
 })*/
 
-/*baseModel.count('movie',function(result){
+baseModel.count('movie','type like "%科幻%"',function(result){
     console.log(result);
-})*/
+});
+baseModel.totalCount('movie',function(result){
+    console.log(result);
+})

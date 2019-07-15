@@ -182,18 +182,36 @@ module.exports = function(){
         });
     }
     /**
-     * @desc 查询数据库总共有多少条数据
+     * @desc desc查询数据库数据表总条数
      * @param tableName string
      * @param callback function
      */
-    this.count = function(tableName,callback){
-        query('SELECT count(*) from ' + tableName,[],function(results,fields){
+    this.totalCount = function(tableName,callback){
+        query('select count(id) from ' + tableName,[],function(results,fields){
+            for(let x in results[0]){
+                console.log("数据库查询总条数成功！共"+results[0][x]+"条数据！")
+                callback(results[0][x]);
+            }
+        });
+    }
+    /**
+     * @desc 查询数据库特定数值总共有多少条数据
+     * @param tableName string
+     * @param type string
+     * @param callback function
+     */
+    this.count = function(tableName,type,callback){
+        query('SELECT count(case when '+ type +' then 1 else null end) from ' + tableName,[],function(results,fields){
             /*if(err){
                 console.log('获取数据错误：' + err.message);
                 callback(false);
             }else{*/
-            console.log("数据库查询总条数成功！共"+results[0]['count(*)']+"条数据！");
-            callback(results[0]['count(*)']);
+            /*console.log("数据库查询总条数成功！共"+results[0]['count(*)']+"条数据！");
+            callback(results[0]['count(*)']);*/
+            for(let x in results[0]){
+                console.log("数据库查询"+type+"条数成功！共"+results[0][x]+"条数据！")
+                callback(results[0][x]);
+            }
         });
     }
     /**
