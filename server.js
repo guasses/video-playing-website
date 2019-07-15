@@ -39,8 +39,6 @@ http.createServer(function(request,response){
                             console.log(set);
                         });
                     }
-                    baseModel.end();
-                    baseModel = null;
                 });
             }
         });
@@ -73,8 +71,6 @@ http.createServer(function(request,response){
                     console.log("用户注册，重复插入数据！");
                     response.write('0');
                     response.end();
-                    baseModel.end();
-                    baseModel = null;
                 }else{ 
                     baseModel.insert('pre_users',{'name':login_post.zc_name,'password':
                     login_post.zc_password,'reason':login_post.zc_reason},function(id){
@@ -85,8 +81,6 @@ http.createServer(function(request,response){
                         }else{
                             console.log("用户注册，插入注册数据库失败！");
                         } 
-                        baseModel.end();
-                        baseModel = null; 
                     });
                 }
             });
@@ -102,8 +96,6 @@ http.createServer(function(request,response){
             }else{
                 console.log("未查找到数据！");
             }
-            baseModel.end();
-            baseModel = null;
         });
     }else if(pathname == '/text/check.txt'){
         var baseModel = new BaseModel();
@@ -128,13 +120,9 @@ http.createServer(function(request,response){
                             }else{
                                 console.log("正式库插入数据失败！");
                             }
-                            baseModel.end();
-                            baseModel = null;
                         });
                     }else{
                         console.log("通过审核查询数据失败！");
-                        baseModel.end();
-                        baseModel = null;
                     }
                 });
             }else if(check_post.delete){
@@ -144,8 +132,6 @@ http.createServer(function(request,response){
                     }else{
                         console.log("删除，删除注册数据库数据失败！");
                     }
-                    baseModel.end();
-                    baseModel = null;
                 });
             }
         });
@@ -168,9 +154,7 @@ http.createServer(function(request,response){
                     response.end();
                 }
             });
-            baseModel.end();
-            baseModel = null;
-        })
+        });
     }else if(pathname == '/text/movie_list.txt'){
         request.on('data',function(chunk){
             movie_list_post += chunk;
@@ -360,8 +344,6 @@ http.createServer(function(request,response){
                     response.write('0');
                     response.end();
                 }
-                baseModel.end();
-                baseModel = null;
             });
         });
     }else if(pathname == '/text/count.txt'){

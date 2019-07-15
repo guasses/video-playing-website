@@ -1,8 +1,9 @@
 var BaseModel = require('./base_model');
-var baseModel = new BaseModel();
+var mysql = require('mysql');
 var rowInfo = {};
 var tableName = 'test';
 
+var baseModel = new BaseModel();   
 /*var whereJson = {
     'and':[{'key':'book_name','opts':'=','value':'"nodejs book"'},
     {'key':'author','opts':'=','value':'"danhuang"'}],
@@ -15,6 +16,6 @@ baseModel.find(tableName,whereJson,orderByJson,limitArr,fieldsArr,function(ret){
     console.log(ret);
 })*/
 
-baseModel.count('movie',function(result){
+/*baseModel.count('movie',function(result){
     console.log(result);
-})
+})*/

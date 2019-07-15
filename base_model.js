@@ -6,7 +6,8 @@
  */
 var Util = require('./util.js'),
     mysql = require('mysql'),
-    dbClient;
+    pool;
+
 module.exports = function(){
     __constructor();
     /*数据查询接口*/
@@ -22,6 +23,24 @@ module.exports = function(){
     /**
      * @desc BaseModel类构造函数，连接数据库
      */
+    function query(sql,arr,callback){
+        pool.getConnection(function(err,connection){
+            if(err){
+                throw err;
+                return;
+            }
+            console.log("数据库连接成功！");
+            connection.query(sql,arr,function(error,results,fields){
+                connection.release();
+                if(error){
+                    console.log("数据库查询失败！");
+                    callback(false);
+                    throw error;
+                }
+                callback && callback(results,fields);
+            });
+        });
+    }
     function __constructor(){
         var dbConfig = Util.get('config.json','db');
         var client = {};
@@ -29,17 +48,19 @@ module.exports = function(){
         client.port = dbConfig['port'];
         client.user = dbConfig['user'];
         client.password = dbConfig['password'];
+        client.database = dbConfig['dbName'];
         //创建mysql连接
-        dbClient = mysql.createConnection(client);
-        dbClient.connect();
-        dbClient.query('USE ' + dbConfig['dbName'],function(err,results){
+        pool = mysql.createPool(client);
+        /*dbClient = mysql.createConnection(client);
+        dbClient.connect();*/
+        /*query('USE ' + dbConfig['dbName'],function(err,results){
             if(err || results == undefined){
                 console.log('数据库连接错误：' + err.message);
                 dbClient.end();
             }else{
-                console.log('数据库连接成功！');
+                console.log('选择数据库成功！');
             }
-        })
+        })*/
     }
     /**
      * @desc 向数据库插入数据
@@ -49,7 +70,7 @@ module.exports = function(){
      * @return null
      */
     this.insert = function(tableName,rowInfo,callback){
-        dbClient.query('INSERT INTO ' + tableName + ' SET ?',rowInfo,function(err,results){
+        query('INSERT INTO ' + tableName + ' SET ?',rowInfo,function(results,fields){
             if(err) throw err;
             callback(results.insertId);
         });
@@ -62,18 +83,17 @@ module.exports = function(){
      * @return null
      */
     this.findOneById = function(tableName,idJson,callback){
-        dbClient.query('SELECT * FROM ' + tableName + ' WHERE ?',idJson,function(err,result){
-            if(err){
+        query('SELECT * FROM ' + tableName + ' WHERE ?',idJson,function(result,fields){
+            /*if(err){
                 console.log('获取数据错误：' + err.message);
                 callback(false);
                 dbClient.end();
-            }else{
+            }else{*/
                 if(result){
                     callback(result.pop());
                 }else{
                     callback(result);
                 }
-            }
         });
     }
     /**
@@ -85,14 +105,13 @@ module.exports = function(){
      * @return null
      */
     this.modify = function(tableName,idJson,rowInfo,callback){
-        dbClient.query('UPDATE ' + tableName + ' SET ? WHERE ?',[rowInfo,idJson],
-            function(err,result){
-                if(err){
+        query('UPDATE ' + tableName + ' SET ? WHERE ?',[rowInfo,idJson],
+            function(result,fields){
+                /*if(err){
                     console.log('修改数据错误：' + err.message);
                     callback(false);
-                }else{
+                }else{*/
                     callback(result);
-                }
             });
     }
     /**
@@ -103,13 +122,12 @@ module.exports = function(){
      * @return null
      */
     this.remove = function(tableName,idJson,callback){
-        dbClient.query('DELETE from ' + tableName + ' where ?',idJson,function(err,results){
-            if(err){
+        query('DELETE from ' + tableName + ' where ?',idJson,function(results,fields){
+            /*if(err){
                 console.log("删除数据错误：" + err.message);
                 callback(false);
-            }else{
+            }else{*/
                 callback(true);
-            }
         });
     }
     /**
@@ -153,15 +171,14 @@ module.exports = function(){
             sql = 'SELECT ' + filedsStr + ' FROM ' + tableName + ' where ' +
             andStr + orStr + orderStr + limitStr;
         }
-        console.log(sql);
-        dbClient.query(sql,function(err,results){
-            if(err){
+        //console.log(sql);
+        query(sql,[],function(results,fields){
+            /*if(err){
                 console.log('获取数据错误：' + err.message);
                 callback(false);
-            }else{
+            }else{*/
                 console.log('数据查询成功！');
                 callback(results);
-            }
         });
     }
     /**
@@ -170,21 +187,20 @@ module.exports = function(){
      * @param callback function
      */
     this.count = function(tableName,callback){
-        dbClient.query('SELECT count(*) from ' + tableName,function(err,result){
-            if(err){
+        query('SELECT count(*) from ' + tableName,[],function(results,fields){
+            /*if(err){
                 console.log('获取数据错误：' + err.message);
                 callback(false);
-            }else{
-                console.log('查询电影数据总条数成功！共'+result[0]['count(*)']+"条数据");
-                callback(result[0]['count(*)']);
-            }
+            }else{*/
+            console.log("数据库查询总条数成功！共"+results[0]['count(*)']+"条数据！");
+            callback(results[0]['count(*)']);
         });
     }
     /**
      * @desc 关闭数据库连接
-     */
+     *
     this.end = function(){
         dbClient.end();
     }
-    
+    */
 }
